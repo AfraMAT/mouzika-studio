@@ -37,3 +37,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# playwright MCP scratch
+.playwright-mcp/
+live-*.jpeg
