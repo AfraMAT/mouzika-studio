@@ -4,7 +4,7 @@
   "private": true,
   "description": "Mouzika Studio — the modern, interactive way to learn electronic music production.",
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "next dev",
