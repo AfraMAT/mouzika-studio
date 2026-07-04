@@ -1,0 +1,318 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Mouzika Studio — design system
+   Extracted from the canonical UI/UX prototype.
+   Palette: near-black canvas, lime primary, multi-accent.
+   ============================================================ */
+
+@theme {
+  --color-canvas: #0a0b10;
+  --color-surface: #111219;
+  --color-surface-2: #141620;
+  --color-elev: #171922;
+  --color-ink: #f4f5f7;
+  --color-ink-soft: #c8ccd6;
+  --color-muted: #9aa0ad;
+  --color-muted-2: #6b6f7d;
+  --color-faint: #3f4457;
+
+  --color-lime: #cbf24e;
+  --color-lime-shadow: #7f9f2b;
+  --color-lime-shadow-2: #93b81f;
+  --color-cyan: #4fe3e0;
+  --color-violet: #8b7cff;
+  --color-orange: #ff9a3c;
+  --color-pink: #ff5c93;
+  --color-gold: #ffd35c;
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+  --font-arabic: 'Tajawal', 'Hanken Grotesk', sans-serif;
+
+  --shadow-pop: 0 18px 55px rgba(0, 0, 0, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #0a0b10;
+  color: #f4f5f7;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(203, 242, 78, 0.28);
+  color: #fff;
+}
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-thumb {
+  background: #262932;
+  border-radius: 8px;
+  border: 2px solid #0a0b10;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333743;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---- RTL / Arabic ---- */
+[dir='rtl'] {
+  font-family: var(--font-arabic);
+}
+[dir='rtl'] h1,
+[dir='rtl'] h2,
+[dir='rtl'] h3,
+[dir='rtl'] h4,
+[dir='rtl'] h5,
+[dir='rtl'] p,
+[dir='rtl'] a,
+[dir='rtl'] button,
+[dir='rtl'] input,
+[dir='rtl'] textarea,
+[dir='rtl'] select,
+[dir='rtl'] li,
+[dir='rtl'] span {
+  font-family: var(--font-arabic);
+}
+[dir='rtl'] .material-symbols-rounded {
+  font-family: 'Material Symbols Rounded' !important;
+}
+
+/* Material Symbols */
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'opsz' 24, 'wght' 400, 'FILL' 0, 'GRAD' 0;
+  user-select: none;
+}
+.material-symbols-rounded.fill {
+  font-variation-settings: 'FILL' 1;
+}
+
+/* ---- keyframes (from prototype) ---- */
+@keyframes eq {
+  0%,
+  100% {
+    transform: scaleY(0.32);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-11px);
+  }
+}
+@keyframes floaty2 {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(9px);
+  }
+}
+@keyframes sweep {
+  from {
+    left: 0;
+  }
+  to {
+    left: 100%;
+  }
+}
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(203, 242, 78, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(203, 242, 78, 0);
+  }
+}
+@keyframes glowm {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(203, 242, 78, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(203, 242, 78, 0);
+  }
+}
+@keyframes flicker {
+  0%,
+  100% {
+    transform: scale(1) rotate(-2deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.09) rotate(2deg);
+    opacity: 0.82;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes pop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes stepon {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.14);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes bgpan {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-26px, -26px);
+  }
+}
+@keyframes rise {
+  0% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+@keyframes typing {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+@keyframes toastin {
+  from {
+    transform: translate(-50%, 20px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+/* utility helpers used across widgets */
+.dotted-bg {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.anim-rise {
+  animation: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.hover-lift {
+  transition:
+    transform 0.16s ease,
+    border-color 0.16s ease;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* range inputs — themed lime sliders */
+input[type='range'].mz-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+  cursor: pointer;
+}
+input[type='range'].mz-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #cbf24e;
+  border: 3px solid #0a0b10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+input[type='range'].mz-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #cbf24e;
+  border: 3px solid #0a0b10;
+  cursor: pointer;
+}
+input[type='range'].mz-range.cyan::-webkit-slider-thumb {
+  background: #4fe3e0;
+}
+input[type='range'].mz-range.cyan::-moz-range-thumb {
+  background: #4fe3e0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

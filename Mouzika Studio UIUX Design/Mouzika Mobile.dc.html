@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..0&display=block" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#0a0a0f}
+@keyframes eq{0%,100%{transform:scaleY(0.32)}50%{transform:scaleY(1)}}
+@keyframes glowm{0%,100%{box-shadow:0 0 0 0 rgba(203,242,78,0.5)}70%{box-shadow:0 0 0 10px rgba(203,242,78,0)}}
+@keyframes flickerm{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3,[dir=rtl] p,[dir=rtl] a,[dir=rtl] button,[dir=rtl] div,[dir=rtl] input{font-family:'Tajawal','Hanken Grotesk',sans-serif !important}
+[dir=rtl] *{letter-spacing:normal !important}
+[dir=rtl] [style*="Material Symbols"]{font-family:'Material Symbols Rounded' !important}
+</style>
+</helmet>
+<div style="min-height:100vh;background:radial-gradient(1200px 700px at 50% -10%,#15161f,#0a0a0f 60%);color:#F4F5F7;font-family:'Hanken Grotesk',sans-serif;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;padding:26px 20px 60px">
+
+  <div style="width:100%;max-width:900px;display:flex;align-items:center;justify-content:space-between;margin-bottom:26px">
+    <div style="display:flex;align-items:center;gap:11px">
+      <div style="display:flex;align-items:flex-end;gap:2.5px;height:22px"><div style="width:4px;height:9px;background:#CBF24E;border-radius:2px;transform-origin:bottom;animation:eq 1.1s ease-in-out -0.2s infinite"></div><div style="width:4px;height:20px;background:#CBF24E;border-radius:2px;transform-origin:bottom;animation:eq 0.85s ease-in-out -0.5s infinite"></div><div style="width:4px;height:13px;background:#CBF24E;border-radius:2px;transform-origin:bottom;animation:eq 1.3s ease-in-out 0s infinite"></div><div style="width:4px;height:22px;background:#CBF24E;border-radius:2px;transform-origin:bottom;animation:eq 0.75s ease-in-out -0.35s infinite"></div></div>
+      <div><div style="font-family:'Space Grotesk';font-weight:700;font-size:18px;line-height:1">mouzika<span style="color:#CBF24E">.studio</span></div><div style="font-family:'Space Mono';font-size:10px;letter-spacing:0.12em;color:#6b6f7d;margin-top:2px">MOBILE APP</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="display:flex;align-items:center;gap:2px;padding:4px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:11px">
+        <sc-for list="{{ langBtns }}" as="lng" hint-placeholder-count="3"><button onClick="{{ lng.onClick }}" style="{{ lng.style }}">{{ lng.label }}</button></sc-for>
+      </div>
+      <a href="Mouzika Studio.dc.html" style="font-family:'Hanken Grotesk';font-weight:600;font-size:13px;color:#9aa0ad;text-decoration:none;padding:9px 14px;border-radius:11px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09)" style-hover="color:#fff">Web app</a>
+      <a href="Mouzika Admin.dc.html" style="font-family:'Hanken Grotesk';font-weight:600;font-size:13px;color:#9aa0ad;text-decoration:none;padding:9px 14px;border-radius:11px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09)" style-hover="color:#fff">Admin</a>
+    </div>
+  </div>
+
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ darkTrue }}" hint-size="402px,874px">
+    <div dir="{{ dir }}" style="height:100%;position:relative;background:#0A0B10;color:#F4F5F7;font-family:'Hanken Grotesk',sans-serif;overflow:hidden">
+      <div ref="{{ scrollRef }}" style="height:100%;overflow-y:auto;padding:58px 16px 94px">
+
+        <!-- HOME -->
+        <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+            <div><div style="font-family:'Space Grotesk';font-weight:700;font-size:22px;letter-spacing:-0.02em;line-height:1.1">{{ t.hi }}</div><div style="font-size:12.5px;color:#8a8f9c;margin-top:4px">{{ t.sub }}</div></div>
+            <div style="display:flex;align-items:center;gap:6px;padding:7px 11px;background:rgba(255,154,60,0.12);border:1px solid rgba(255,154,60,0.25);border-radius:12px"><span style="font-family:'Material Symbols Rounded';font-size:19px;color:#FF9A3C;font-variation-settings:'FILL' 1;animation:flickerm 1.8s ease-in-out infinite">local_fire_department</span><span style="font-family:'Space Grotesk';font-weight:700;font-size:16px;color:#FF9A3C">12</span></div>
+          </div>
+          <button onClick="{{ openLesson }}" style="width:100%;text-align:start;cursor:pointer;background:linear-gradient(120deg,rgba(203,242,78,0.16),rgba(139,124,255,0.12));border:1px solid rgba(203,242,78,0.3);border-radius:20px;padding:17px;margin-bottom:14px;display:flex;align-items:center;gap:13px">
+            <div style="flex-shrink:0;width:50px;height:50px;border-radius:15px;background:#CBF24E;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 0 #7f9f2b"><span style="font-family:'Material Symbols Rounded';font-size:27px;color:#0A0B10">play_arrow</span></div>
+            <div style="flex:1;min-width:0"><div style="font-family:'Space Mono';font-size:9.5px;letter-spacing:0.05em;color:#a9c96a">{{ t.cont }}</div><div style="font-family:'Space Grotesk';font-weight:700;font-size:16px;margin-top:2px">{{ t.contLesson }}</div><div style="font-size:11.5px;color:#8a8f9c;margin-top:2px">{{ t.contUnit }}</div></div>
+          </button>
+          <div style="display:flex;gap:12px;margin-bottom:20px">
+            <div style="flex:1;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:15px;display:flex;align-items:center;gap:12px">
+              <div style="position:relative;flex-shrink:0"><svg width="50" height="50" viewBox="0 0 54 54"><circle cx="27" cy="27" r="22" fill="none" stroke="#1c1f27" stroke-width="6"/><circle cx="27" cy="27" r="22" fill="none" stroke="#CBF24E" stroke-width="6" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="55" transform="rotate(-90 27 27)"/></svg><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Space Grotesk';font-weight:700;font-size:12px">60%</span></div>
+              <div><div style="font-family:'Space Grotesk';font-weight:700;font-size:14px">{{ t.daily }}</div><div style="font-size:11px;color:#8a8f9c;margin-top:2px;line-height:1.35">{{ t.dailyMsg }}</div></div>
+            </div>
+          </div>
+          <div style="font-family:'Space Mono';font-size:10.5px;letter-spacing:0.06em;color:#6b6f7d;margin-bottom:11px">{{ t.quick }}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+            <button onClick="{{ openStudio }}" style="text-align:start;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:15px;cursor:pointer"><div style="width:40px;height:40px;border-radius:11px;background:rgba(255,92,147,0.14);display:flex;align-items:center;justify-content:center;color:#FF5C93"><span style="font-family:'Material Symbols Rounded';font-size:22px">piano</span></div><div style="font-family:'Space Grotesk';font-weight:600;font-size:14px;margin-top:11px">{{ t.studio }}</div><div style="font-size:11px;color:#8a8f9c;margin-top:2px">{{ t.studioSub }}</div></button>
+            <sc-for list="{{ drills }}" as="d" hint-placeholder-count="2">
+              <button onClick="{{ d.onClick }}" style="text-align:start;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:15px;cursor:pointer"><div style="{{ d.iconWrap }}"><span style="font-family:'Material Symbols Rounded';font-size:22px">{{ d.icon }}</span></div><div style="font-family:'Space Grotesk';font-weight:600;font-size:14px;margin-top:11px">{{ d.name }}</div><div style="font-size:11px;color:#8a8f9c;margin-top:2px">{{ d.sub }}</div></button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- LEARN -->
+        <sc-if value="{{ isLearn }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="font-family:'Space Grotesk';font-weight:700;font-size:22px;letter-spacing:-0.02em">{{ t.pathTitle }}</div>
+          <div style="font-size:12.5px;color:#8a8f9c;margin:4px 0 20px">{{ t.pathSub }}</div>
+          <div style="display:flex;flex-direction:column">
+            <sc-for list="{{ path }}" as="n" hint-placeholder-count="5">
+              <div style="display:flex;align-items:stretch;gap:13px">
+                <div style="display:flex;flex-direction:column;align-items:center">
+                  <button onClick="{{ n.onClick }}" style="{{ n.dot }}"><span style="font-family:'Material Symbols Rounded';font-size:20px">{{ n.icon }}</span></button>
+                  <div style="{{ n.line }}"></div>
+                </div>
+                <div style="{{ n.card }}"><div style="font-family:'Space Grotesk';font-weight:600;font-size:15px;color:{{ n.textColor }}">{{ n.label }}</div><div style="font-size:11px;color:#6b6f7d;margin-top:2px">{{ n.meta }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- PRACTICE HUB -->
+        <sc-if value="{{ isPractice }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="font-family:'Space Grotesk';font-weight:700;font-size:22px;letter-spacing:-0.02em">{{ t.practiceTitle }}</div>
+          <div style="font-size:12.5px;color:#8a8f9c;margin:4px 0 18px">{{ t.practiceSub }}</div>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ drills }}" as="d" hint-placeholder-count="3">
+              <button onClick="{{ d.onClick }}" style="width:100%;text-align:start;display:flex;align-items:center;gap:14px;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:16px;cursor:pointer">
+                <div style="{{ d.iconWrap }}"><span style="font-family:'Material Symbols Rounded';font-size:22px">{{ d.icon }}</span></div>
+                <div style="flex:1"><div style="font-family:'Space Grotesk';font-weight:600;font-size:15px">{{ d.name }}</div><div style="font-size:12px;color:#8a8f9c;margin-top:2px">{{ d.sub }}</div></div>
+                <span style="font-family:'Material Symbols Rounded';font-size:22px;color:#CBF24E">chevron_right</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- TUTOR -->
+        <sc-if value="{{ isTutor }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;height:100%">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:16px"><div style="width:38px;height:38px;border-radius:12px;background:rgba(139,124,255,0.16);display:flex;align-items:center;justify-content:center"><span style="font-family:'Material Symbols Rounded';font-size:21px;color:#8B7CFF">auto_awesome</span></div><div><div style="font-family:'Space Grotesk';font-weight:700;font-size:17px">{{ t.tutorTitle }}</div><div style="font-size:11.5px;color:#8a8f9c">{{ t.tutorSub }}</div></div></div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ chatMsgs }}" as="m" hint-placeholder-count="1">
+              <div style="{{ m.rowStyle }}"><div style="{{ m.bubbleStyle }}">{{ m.text }}</div></div>
+            </sc-for>
+            <sc-if value="{{ chatTyping }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:5px;padding:12px 15px;background:#171922;border-radius:15px;align-self:flex-start;border:1px solid rgba(255,255,255,0.06)"><div style="width:6px;height:6px;border-radius:50%;background:#8B7CFF;animation:flickerm 1s 0s infinite"></div><div style="width:6px;height:6px;border-radius:50%;background:#8B7CFF;animation:flickerm 1s .2s infinite"></div><div style="width:6px;height:6px;border-radius:50%;background:#8B7CFF;animation:flickerm 1s .4s infinite"></div></div></sc-if>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- PROFILE -->
+        <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:20px">
+            <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#8B7CFF,#4FE3E0);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:31px;color:#0A0B10">A</div>
+            <div style="font-family:'Space Grotesk';font-weight:700;font-size:20px;margin-top:12px">Alex Rivera</div>
+            <div style="font-family:'Space Mono';font-size:11.5px;color:#CBF24E;margin-top:3px">{{ t.profLevel }}</div>
+          </div>
+          <div style="display:flex;gap:10px;margin-bottom:20px">
+            <div style="flex:1;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:13px;text-align:center"><div style="font-family:'Space Grotesk';font-weight:700;font-size:19px;color:#FF9A3C">12</div><div style="font-size:10.5px;color:#8a8f9c;margin-top:2px">{{ t.stStreak }}</div></div>
+            <div style="flex:1;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:13px;text-align:center"><div style="font-family:'Space Grotesk';font-weight:700;font-size:19px;color:#4FE3E0">3,420</div><div style="font-size:10.5px;color:#8a8f9c;margin-top:2px">{{ t.stXP }}</div></div>
+            <div style="flex:1;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:13px;text-align:center"><div style="font-family:'Space Grotesk';font-weight:700;font-size:19px;color:#CBF24E">7</div><div style="font-size:10.5px;color:#8a8f9c;margin-top:2px">{{ t.stTracks }}</div></div>
+          </div>
+          <div style="font-family:'Space Mono';font-size:10.5px;letter-spacing:0.06em;color:#6b6f7d;margin-bottom:11px">{{ t.ach }}</div>
+          <div style="display:flex;gap:9px;margin-bottom:20px">
+            <sc-for list="{{ achievements }}" as="a" hint-placeholder-count="5"><div style="{{ a.style }}"><span style="font-family:'Material Symbols Rounded';font-size:23px">{{ a.icon }}</span></div></sc-for>
+          </div>
+          <div style="font-family:'Space Mono';font-size:10.5px;letter-spacing:0.06em;color:#6b6f7d;margin-bottom:11px">{{ t.myTracks }}</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ tracks }}" as="tr" hint-placeholder-count="2">
+              <div style="display:flex;align-items:center;gap:12px;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:12px">
+                <div style="display:flex;align-items:flex-end;gap:2px;height:28px;width:42px;flex-shrink:0"><sc-for list="{{ tr.bars }}" as="b" hint-placeholder-count="9"><div style="{{ b }}"></div></sc-for></div>
+                <div style="flex:1;min-width:0"><div style="font-family:'Space Grotesk';font-weight:600;font-size:13.5px">{{ tr.title }}</div><div style="font-family:'Space Mono';font-size:10.5px;color:#6b6f7d;margin-top:1px">{{ tr.genre }}</div></div>
+                <div style="width:32px;height:32px;border-radius:50%;background:rgba(203,242,78,0.14);display:flex;align-items:center;justify-content:center"><span style="font-family:'Material Symbols Rounded';font-size:19px;color:#CBF24E">play_arrow</span></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- LESSON (sequencer) -->
+        <sc-if value="{{ isLesson }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <button onClick="{{ back }}" style="display:flex;align-items:center;gap:6px;font-family:'Hanken Grotesk';font-weight:600;font-size:13px;color:#9aa0ad;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 13px;cursor:pointer;margin-bottom:14px"><span style="font-family:'Material Symbols Rounded';font-size:18px">arrow_back</span>{{ t.back }}</button>
+          <div style="font-family:'Space Mono';font-size:10px;letter-spacing:0.05em;color:#8B7CFF;margin-bottom:6px">UNIT 2 · BEATS &amp; RHYTHM</div>
+          <div style="font-family:'Space Grotesk';font-weight:700;font-size:20px;letter-spacing:-0.02em">Four-on-the-floor</div>
+          <p style="font-size:13px;line-height:1.55;color:#A7ABB8;margin:8px 0 18px">Tap cells to build a groove. Kick on every beat, clap on 2 &amp; 4, hats on the off-beats. Hit play to hear it.</p>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:16px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <button onClick="{{ toggleSeq }}" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;border:none;background:#CBF24E;color:#0A0B10;cursor:pointer;box-shadow:0 4px 0 #7f9f2b;flex-shrink:0" style-active="transform:translateY(3px);box-shadow:0 1px 0 #7f9f2b"><span style="font-family:'Material Symbols Rounded';font-size:26px;font-variation-settings:'FILL' 1">{{ playIcon }}</span></button>
+              <div style="flex:1"><div style="display:flex;align-items:baseline;gap:4px"><span style="font-family:'Space Grotesk';font-weight:700;font-size:18px">{{ bpm }}</span><span style="font-family:'Space Mono';font-size:10px;color:#8a8f9c">BPM</span></div><input type="range" min="90" max="150" value="{{ bpm }}" onInput="{{ setBpm }}" style="width:100%;accent-color:#CBF24E;cursor:pointer"></div>
+              <button onClick="{{ clearSeq }}" style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#9aa0ad;cursor:pointer;flex-shrink:0"><span style="font-family:'Material Symbols Rounded';font-size:19px">restart_alt</span></button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <sc-for list="{{ seqRows }}" as="row" hint-placeholder-count="3">
+                <div>
+                  <button onClick="{{ row.onPreview }}" style="display:flex;align-items:center;gap:7px;background:transparent;border:none;cursor:pointer;padding:0 0 6px"><span style="{{ row.dot }}"></span><span style="font-family:'Hanken Grotesk';font-weight:600;font-size:12px;color:#c8ccd6">{{ row.label }}</span></button>
+                  <div style="display:grid;grid-template-columns:repeat(16,1fr);gap:3px">
+                    <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="16"><button onClick="{{ cell.onClick }}" style="{{ cell.style }}"></button></sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;gap:11px;margin-top:16px;padding:15px;background:rgba(139,124,255,0.07);border:1px solid rgba(139,124,255,0.2);border-radius:14px"><span style="font-family:'Material Symbols Rounded';font-size:20px;color:#8B7CFF;flex-shrink:0">auto_awesome</span><div style="font-size:12.5px;line-height:1.5;color:#A7ABB8">Notice the hats sit between the kicks — that push-pull is what makes it groove.</div></div>
+        </div>
+        </sc-if>
+
+        <!-- STUDIO (synth) -->
+        <sc-if value="{{ isStudio }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <button onClick="{{ back }}" style="display:flex;align-items:center;gap:6px;font-family:'Hanken Grotesk';font-weight:600;font-size:13px;color:#9aa0ad;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 13px;cursor:pointer;margin-bottom:14px"><span style="font-family:'Material Symbols Rounded';font-size:18px">arrow_back</span>{{ t.back }}</button>
+          <div style="font-family:'Space Grotesk';font-weight:700;font-size:20px;letter-spacing:-0.02em">Synth Studio</div>
+          <p style="font-size:12.5px;color:#8a8f9c;margin:6px 0 16px">Osc → Filter → Amp · play the signal chain by ear</p>
+          <div style="position:relative;background:#0a0b10;border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;height:96px;margin-bottom:14px"><canvas ref="{{ vizRef }}" width="360" height="96" style="width:100%;height:100%;display:block"></canvas><div style="position:absolute;top:9px;left:12px;font-family:'Space Mono';font-size:9.5px;color:#5a5e6b">CUTOFF {{ cutoff }}Hz · RES {{ reso }}</div></div>
+          <div style="display:flex;gap:6px;margin-bottom:14px"><sc-for list="{{ waveOpts }}" as="w" hint-placeholder-count="4"><button onClick="{{ w.onClick }}" style="{{ w.style }}">{{ w.label }}</button></sc-for></div>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;margin-bottom:14px">
+            <div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:12px;color:#c8ccd6">Cutoff</span><span style="font-family:'Space Mono';font-size:11px;color:#CBF24E">{{ cutoff }} Hz</span></div><input type="range" min="120" max="8000" value="{{ cutoff }}" onInput="{{ setCutoff }}" style="width:100%;accent-color:#CBF24E;cursor:pointer"></div>
+            <div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:12px;color:#c8ccd6">Resonance</span><span style="font-family:'Space Mono';font-size:11px;color:#CBF24E">{{ reso }}</span></div><input type="range" min="0" max="14" step="0.1" value="{{ reso }}" onInput="{{ setReso }}" style="width:100%;accent-color:#CBF24E;cursor:pointer"></div>
+          </div>
+          <div style="display:flex;gap:7px;margin-bottom:16px">
+            <button onClick="{{ preset }}" data-arg="pluck" style="flex:1;font-family:'Hanken Grotesk';font-weight:600;font-size:12px;color:#c8ccd6;background:#171922;border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:8px 0;cursor:pointer">Pluck</button>
+            <button onClick="{{ preset }}" data-arg="bass" style="flex:1;font-family:'Hanken Grotesk';font-weight:600;font-size:12px;color:#c8ccd6;background:#171922;border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:8px 0;cursor:pointer">Bass</button>
+            <button onClick="{{ preset }}" data-arg="pad" style="flex:1;font-family:'Hanken Grotesk';font-weight:600;font-size:12px;color:#c8ccd6;background:#171922;border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:8px 0;cursor:pointer">Pad</button>
+            <button onClick="{{ preset }}" data-arg="lead" style="flex:1;font-family:'Hanken Grotesk';font-weight:600;font-size:12px;color:#c8ccd6;background:#171922;border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:8px 0;cursor:pointer">Lead</button>
+          </div>
+          <div style="position:relative;height:140px;background:#0a0b10;border-radius:12px;padding:8px;border:1px solid rgba(255,255,255,0.06)"><div style="position:relative;height:100%;display:flex;gap:0">
+            <sc-for list="{{ whiteKeys }}" as="k" hint-placeholder-count="8"><button onMouseDown="{{ k.onDown }}" onMouseUp="{{ k.onUp }}" onMouseLeave="{{ k.onUp }}" onTouchStart="{{ k.onDown }}" onTouchEnd="{{ k.onUp }}" style="{{ k.style }}"></button></sc-for>
+            <sc-for list="{{ blackKeys }}" as="k" hint-placeholder-count="5"><button onMouseDown="{{ k.onDown }}" onMouseUp="{{ k.onUp }}" onMouseLeave="{{ k.onUp }}" onTouchStart="{{ k.onDown }}" onTouchEnd="{{ k.onUp }}" style="{{ k.style }}"></button></sc-for>
+          </div></div>
+        </div>
+        </sc-if>
+
+        <!-- EQ -->
+        <sc-if value="{{ isEq }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <button onClick="{{ back }}" style="display:flex;align-items:center;gap:6px;font-family:'Hanken Grotesk';font-weight:600;font-size:13px;color:#9aa0ad;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 13px;cursor:pointer"><span style="font-family:'Material Symbols Rounded';font-size:18px">arrow_back</span>{{ t.back }}</button>
+            <div style="display:flex;gap:7px"><div style="display:flex;align-items:baseline;gap:5px;padding:7px 11px;background:rgba(79,227,224,0.09);border:1px solid rgba(79,227,224,0.2);border-radius:10px"><span style="font-family:'Space Mono';font-size:9px;color:#8a8f9c">SCORE</span><span style="font-family:'Space Grotesk';font-weight:700;font-size:13px;color:#4FE3E0">{{ eqScore }}</span></div><div style="display:flex;align-items:center;gap:4px;padding:7px 11px;background:rgba(255,154,60,0.1);border:1px solid rgba(255,154,60,0.22);border-radius:10px"><span style="font-family:'Material Symbols Rounded';font-size:16px;color:#FF9A3C;font-variation-settings:'FILL' 1">local_fire_department</span><span style="font-family:'Space Grotesk';font-weight:700;font-size:13px;color:#FF9A3C">{{ eqStreak }}</span></div></div>
+          </div>
+          <div style="font-family:'Space Grotesk';font-weight:700;font-size:19px">EQ Challenge</div>
+          <p style="font-size:12.5px;line-height:1.5;color:#A7ABB8;margin:6px 0 16px">One band is boosted. Listen, then tap the frequency you hear lifted.</p>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:20px;text-align:center;margin-bottom:16px">
+            <div style="display:flex;align-items:flex-end;justify-content:center;gap:3px;height:50px;margin-bottom:18px"><div style="width:5px;height:30%;background:#2a2d38;border-radius:3px"></div><div style="width:5px;height:52%;background:#3a3f4d;border-radius:3px"></div><div style="width:5px;height:82%;background:#CBF24E;border-radius:3px"></div><div style="width:5px;height:100%;background:#CBF24E;border-radius:3px"></div><div style="width:5px;height:78%;background:#CBF24E;border-radius:3px"></div><div style="width:5px;height:50%;background:#3a3f4d;border-radius:3px"></div><div style="width:5px;height:28%;background:#2a2d38;border-radius:3px"></div></div>
+            <div style="display:flex;gap:10px;justify-content:center"><button onClick="{{ eqPlayFlat }}" style="display:flex;align-items:center;gap:7px;font-family:'Hanken Grotesk';font-weight:700;font-size:13.5px;padding:11px 18px;border-radius:12px;cursor:pointer;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.05);color:#F4F5F7"><span style="font-family:'Material Symbols Rounded';font-size:18px">volume_up</span>Flat</button><button onClick="{{ eqPlayBoost }}" style="display:flex;align-items:center;gap:7px;font-family:'Hanken Grotesk';font-weight:700;font-size:13.5px;padding:11px 18px;border-radius:12px;cursor:pointer;border:none;background:#CBF24E;color:#0A0B10;box-shadow:0 3px 0 #7f9f2b"><span style="font-family:'Material Symbols Rounded';font-size:18px">graphic_eq</span>Boosted</button></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px"><sc-for list="{{ eqCards }}" as="c" hint-placeholder-count="7"><button onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button></sc-for></div>
+          <sc-if value="{{ eqRevealed }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding:14px 16px;background:#111219;border:1px solid rgba(255,255,255,0.08);border-radius:14px"><span style="font-family:'Space Grotesk';font-weight:700;font-size:14px;color:{{ eqResultColor }}">{{ eqResultText }}</span><button onClick="{{ eqNext }}" style="font-family:'Hanken Grotesk';font-weight:700;font-size:13px;color:#0A0B10;background:#CBF24E;border:none;border-radius:10px;padding:10px 16px;cursor:pointer">Next</button></div></sc-if>
+        </div>
+        </sc-if>
+
+        <!-- EAR -->
+        <sc-if value="{{ isEar }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <button onClick="{{ back }}" style="display:flex;align-items:center;gap:6px;font-family:'Hanken Grotesk';font-weight:600;font-size:13px;color:#9aa0ad;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 13px;cursor:pointer"><span style="font-family:'Material Symbols Rounded';font-size:18px">arrow_back</span>{{ t.back }}</button>
+            <div style="display:flex;gap:7px"><div style="display:flex;align-items:baseline;gap:5px;padding:7px 11px;background:rgba(79,227,224,0.09);border:1px solid rgba(79,227,224,0.2);border-radius:10px"><span style="font-family:'Space Mono';font-size:9px;color:#8a8f9c">SCORE</span><span style="font-family:'Space Grotesk';font-weight:700;font-size:13px;color:#4FE3E0">{{ earScore }}</span></div><div style="display:flex;align-items:center;gap:4px;padding:7px 11px;background:rgba(255,154,60,0.1);border:1px solid rgba(255,154,60,0.22);border-radius:10px"><span style="font-family:'Material Symbols Rounded';font-size:16px;color:#FF9A3C;font-variation-settings:'FILL' 1">local_fire_department</span><span style="font-family:'Space Grotesk';font-weight:700;font-size:13px;color:#FF9A3C">{{ earStreak }}</span></div></div>
+          </div>
+          <div style="font-family:'Space Grotesk';font-weight:700;font-size:19px">Ear Training</div>
+          <p style="font-size:12.5px;line-height:1.5;color:#A7ABB8;margin:6px 0 16px">Two notes play. Choose the interval between them.</p>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;text-align:center;margin-bottom:16px"><button onClick="{{ earPlay }}" style="display:inline-flex;align-items:center;gap:9px;font-family:'Hanken Grotesk';font-weight:700;font-size:15px;color:#0A0B10;background:#FF9A3C;border:none;border-radius:14px;padding:14px 26px;cursor:pointer;box-shadow:0 4px 0 #b56a26"><span style="font-family:'Material Symbols Rounded';font-size:22px">play_circle</span><sc-if value="{{ earPlayed }}" hint-placeholder-val="{{ false }}">Replay</sc-if><sc-if value="{{ earNotPlayed }}" hint-placeholder-val="{{ true }}">Play interval</sc-if></button></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px"><sc-for list="{{ earOptions }}" as="o" hint-placeholder-count="7"><button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button></sc-for></div>
+          <sc-if value="{{ earRevealed }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding:14px 16px;background:#111219;border:1px solid rgba(255,255,255,0.08);border-radius:14px"><span style="font-family:'Space Grotesk';font-weight:700;font-size:14px;color:{{ earResultColor }}">{{ earResultText }}</span><button onClick="{{ earNext }}" style="font-family:'Hanken Grotesk';font-weight:700;font-size:13px;color:#0A0B10;background:#CBF24E;border:none;border-radius:10px;padding:10px 16px;cursor:pointer">Next</button></div></sc-if>
+        </div>
+        </sc-if>
+
+        <!-- CHORD -->
+        <sc-if value="{{ isChord }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <button onClick="{{ back }}" style="display:flex;align-items:center;gap:6px;font-family:'Hanken Grotesk';font-weight:600;font-size:13px;color:#9aa0ad;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 13px;cursor:pointer;margin-bottom:14px"><span style="font-family:'Material Symbols Rounded';font-size:18px">arrow_back</span>{{ t.back }}</button>
+          <div style="font-family:'Space Grotesk';font-weight:700;font-size:19px">Chord Explorer</div>
+          <p style="font-size:12.5px;line-height:1.5;color:#A7ABB8;margin:6px 0 16px">Every chord below is diatonic — it always sounds right together.</p>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin-bottom:12px"><div style="font-family:'Space Mono';font-size:9.5px;letter-spacing:0.06em;color:#6b6f7d;margin-bottom:10px">ROOT</div><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px"><sc-for list="{{ chordRootBtns }}" as="r" hint-placeholder-count="12"><button onClick="{{ r.onClick }}" style="{{ r.style }}">{{ r.label }}</button></sc-for></div><div style="display:flex;gap:8px;margin-top:12px"><sc-for list="{{ chordScaleBtns }}" as="sc" hint-placeholder-count="2"><button onClick="{{ sc.onClick }}" style="{{ sc.style }}">{{ sc.label }}</button></sc-for></div></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px"><sc-for list="{{ chordPads }}" as="p" hint-placeholder-count="7"><button onClick="{{ p.onClick }}" style="{{ p.style }}"><span style="font-family:'Space Grotesk';font-weight:700;font-size:17px;color:#F4F5F7">{{ p.roman }}</span><span style="font-family:'Space Mono';font-size:9px;color:#8a8f9c">{{ p.notes }}</span></button></sc-for></div>
+          <div style="text-align:center"><button onClick="{{ playProgression }}" style="display:inline-flex;align-items:center;gap:8px;font-family:'Hanken Grotesk';font-weight:700;font-size:14px;color:#0A0B10;background:#4FE3E0;border:none;border-radius:13px;padding:13px 24px;cursor:pointer;box-shadow:0 4px 0 #2f8f8d"><span style="font-family:'Material Symbols Rounded';font-size:19px">play_arrow</span>Play progression</button></div>
+        </div>
+        </sc-if>
+
+        <!--M-SLOT-->
+
+      </div>
+
+      <!-- tutor input (only tutor tab) -->
+      <sc-if value="{{ isTutor }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;bottom:78px;left:0;right:0;padding:8px 14px;background:linear-gradient(0deg,#0A0B10 80%,transparent)">
+          <div style="display:flex;align-items:center;gap:8px;background:#14161d;border:1px solid rgba(255,255,255,0.12);border-radius:15px;padding:6px 6px 6px 15px">
+            <input value="{{ chatInput }}" onInput="{{ setChatInput }}" onKeyDown="{{ chatKey }}" placeholder="{{ t.tutorPh }}" style="flex:1;background:transparent;border:none;outline:none;color:#F4F5F7;font-family:'Hanken Grotesk';font-size:14px;padding:7px 0" />
+            <button onClick="{{ chatSend }}" style="width:38px;height:38px;border-radius:11px;border:none;background:#CBF24E;color:#0A0B10;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center"><span style="font-family:'Material Symbols Rounded';font-size:20px">arrow_upward</span></button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- bottom tab bar -->
+      <div style="position:absolute;bottom:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-around;padding:9px 8px 26px;background:linear-gradient(0deg,#0A0B10 74%,transparent);border-top:1px solid rgba(255,255,255,0.06)">
+        <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="5">
+          <button onClick="{{ tab.onClick }}" style="{{ tab.style }}"><span style="font-family:'Material Symbols Rounded';font-size:24px">{{ tab.icon }}</span><span style="font-size:9.5px;font-weight:600">{{ tab.label }}</span></button>
+        </sc-for>
+      </div>
+    </div>
+  </x-import>
+
+  <div style="font-family:'Space Mono';font-size:11.5px;color:#5a5e6b;margin-top:22px;text-align:center">Play lessons, synths &amp; drills right in the phone · switch language above · same account as web</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    tab:'home', sub:null,
+    lang:(()=>{try{return localStorage.getItem('mz_lang')||'en'}catch(e){return 'en'}})(),
+    bpm:124, seqPlaying:false, seqStep:-1,
+    pattern:{ kick:[true,false,false,false,true,false,false,false,true,false,false,false,true,false,false,false], clap:[false,false,false,false,true,false,false,false,false,false,false,false,true,false,false,false], hat:[false,false,true,false,false,false,true,false,false,false,true,false,false,false,true,false] },
+    wave:'sawtooth', cutoff:1400, reso:3, attack:0.02, release:0.6, heldNotes:{},
+    eqOptions:[125,250,500,1000,2000,4000,8000], eqAnswerIdx:3, eqGuessIdx:null, eqRevealed:false, eqScore:0, eqStreak:0, eqPlaying:null,
+    earSemis:[3,4,5,6,7,10,12], earAnswer:4, earGuess:null, earRevealed:false, earScore:0, earStreak:0, earPlayed:false,
+    chordRoot:0, chordScale:'minor', chordActiveDeg:null,
+    chat:[{role:'tutor',text:"Hey Alex! I'm your Mouzika tutor — ask me anything about theory, sound design, mixing or the AI workflow."}], chatInput:'', chatTyping:false
+  };
+  _DICT = {
+    en:{ tabs:{home:'Home',learn:'Learn',practice:'Practice',tutor:'Tutor',profile:'Profile'}, hi:'Good evening, Alex', sub:'2 lessons to your next badge', cont:'CONTINUE LEARNING', contLesson:'Four-on-the-floor', contUnit:'Beats & Rhythm · Lesson 1', daily:'Daily goal', dailyMsg:'2 lessons left · +50 XP', quick:'JUMP BACK IN', studio:'Studio', studioSub:'Synth playground', pathTitle:'Your path', pathSub:'Music Foundations', practiceTitle:'Practice Lab', practiceSub:'Train your ears & hands', tutorTitle:'AI Tutor', tutorSub:'Knows your curriculum', tutorPh:'Ask anything…', profLevel:'House producer · Lv 7', stStreak:'day streak', stXP:'total XP', stTracks:'tracks', ach:'ACHIEVEMENTS', myTracks:'MY TRACKS', back:'Back' },
+    fr:{ tabs:{home:'Accueil',learn:'Cours',practice:'Pratique',tutor:'Tuteur',profile:'Profil'}, hi:'Bonsoir, Alex', sub:'2 leçons avant ton prochain badge', cont:'CONTINUER', contLesson:'Four-on-the-floor', contUnit:'Beats & rythme · Leçon 1', daily:'Objectif du jour', dailyMsg:'2 leçons restantes · +50 XP', quick:'REPRENDRE', studio:'Studio', studioSub:'Atelier synthé', pathTitle:'Ton parcours', pathSub:'Fondamentaux musicaux', practiceTitle:'Atelier', practiceSub:"Forme oreille et mains", tutorTitle:'Tuteur IA', tutorSub:'Connaît ton programme', tutorPh:'Pose ta question…', profLevel:'Producteur house · Niv 7', stStreak:'jours', stXP:'XP total', stTracks:'morceaux', ach:'RÉUSSITES', myTracks:'MES MORCEAUX', back:'Retour' },
+    ar:{ tabs:{home:'الرئيسية',learn:'الدروس',practice:'التمرين',tutor:'المعلّم',profile:'الملف'}, hi:'مساء الخير، أليكس', sub:'درسان حتى شارتك التالية', cont:'واصل التعلّم', contLesson:'أربع نبضات', contUnit:'الإيقاعات · الدرس 1', daily:'هدف اليوم', dailyMsg:'درسان متبقيان · +50 XP', quick:'واصل', studio:'الاستوديو', studioSub:'مركّب الصوت', pathTitle:'مسارك', pathSub:'أساسيات الموسيقى', practiceTitle:'مختبر التمرين', practiceSub:'درّب أذنك ويدك', tutorTitle:'المعلّم الذكي', tutorSub:'يعرف منهجك', tutorPh:'اسأل أي شيء…', profLevel:'منتج هاوس · المستوى 7', stStreak:'يوم', stXP:'إجمالي الخبرة', stTracks:'مقطوعات', ach:'الإنجازات', myTracks:'مقطوعاتي', back:'رجوع' }
+  };
+  componentDidMount(){ this._startViz(); }
+  componentWillUnmount(){ if(this._raf) cancelAnimationFrame(this._raf); this._stopSeq(); }
+  componentDidUpdate(){ if(this.state.tab==='tutor' && this._sc) this._sc.scrollTop = this._sc.scrollHeight; }
+  setLang(c){ try{localStorage.setItem('mz_lang',c)}catch(e){} this.setState({lang:c}); }
+  setTab(t){ this._stopSeq(); this.setState({tab:t, sub:null}); }
+  openSub(s){ if(s!=='lesson') this._stopSeq(); this.setState({sub:s}); }
+  back(){ this._stopSeq(); this.setState({sub:null}); }
+
+  async _ensureAudio(){
+    if(this._audioReady) return; const T=window.Tone; if(!T) return; await T.start();
+    this._kick=new T.MembraneSynth({pitchDecay:0.03,octaves:6,oscillator:{type:'sine'},envelope:{attack:0.001,decay:0.34,sustain:0,release:0.2}}).toDestination(); this._kick.volume.value=2;
+    const cf=new T.Filter(1200,'bandpass').toDestination(); this._clap=new T.NoiseSynth({noise:{type:'white'},envelope:{attack:0.002,decay:0.22,sustain:0}}).connect(cf); this._clap.volume.value=-8;
+    const hf=new T.Filter(8000,'highpass').toDestination(); this._hat=new T.NoiseSynth({noise:{type:'white'},envelope:{attack:0.001,decay:0.045,sustain:0}}).connect(hf); this._hat.volume.value=-16;
+    this._analyser=new T.Analyser('waveform',1024);
+    this._filter=new T.Filter({type:'lowpass',frequency:this.state.cutoff,Q:this.state.reso}).toDestination(); this._filter.connect(this._analyser);
+    this._synth=new T.PolySynth(T.Synth,{oscillator:{type:this.state.wave},envelope:{attack:this.state.attack,decay:0.2,sustain:0.7,release:this.state.release}}).connect(this._filter); this._synth.volume.value=-10;
+    this._audioReady=true;
+  }
+  async _toggleSeq(){ await this._ensureAudio(); const T=window.Tone; if(!T) return; if(this.state.seqPlaying){this._stopSeq();return;} T.Transport.bpm.value=this.state.bpm; if(this._seq){this._seq.dispose();this._seq=null;} const steps=Array.from({length:16},(_,i)=>i); this._seq=new T.Sequence((time,step)=>{ const p=this.state.pattern; if(p.kick[step])this._kick.triggerAttackRelease('C1','8n',time); if(p.clap[step])this._clap.triggerAttackRelease('16n',time); if(p.hat[step])this._hat.triggerAttackRelease('32n',time); T.Draw.schedule(()=>this.setState({seqStep:step}),time); },steps,'16n'); this._seq.start(0); T.Transport.start('+0.05'); this.setState({seqPlaying:true}); }
+  _stopSeq(){ const T=window.Tone; try{ if(this._seq){this._seq.dispose();this._seq=null;} if(T){T.Transport.stop();T.Transport.cancel();} }catch(e){} if(this.state.seqPlaying||this.state.seqStep!==-1)this.setState({seqPlaying:false,seqStep:-1}); }
+  _toggleCell(track,i){ const pattern={...this.state.pattern}; const arr=pattern[track].slice(); arr[i]=!arr[i]; pattern[track]=arr; this.setState({pattern}); }
+  async _previewDrum(track){ await this._ensureAudio(); const m={kick:()=>this._kick.triggerAttackRelease('C1','8n'),clap:()=>this._clap.triggerAttackRelease('16n'),hat:()=>this._hat.triggerAttackRelease('32n')}; if(m[track])m[track](); }
+  _setBpm(v){ const bpm=Math.round(v); if(window.Tone)window.Tone.Transport.bpm.value=bpm; this.setState({bpm}); }
+  _clearSeq(){ const e=()=>Array(16).fill(false); this.setState({pattern:{kick:e(),clap:e(),hat:e()}}); }
+
+  async _noteOn(note){ await this._ensureAudio(); if(this.state.heldNotes[note])return; this._synth.triggerAttack(note); this.setState(s=>({heldNotes:{...s.heldNotes,[note]:true}})); }
+  _noteOff(note){ if(!this._audioReady||!this.state.heldNotes[note])return; this._synth.triggerRelease(note); this.setState(s=>{const h={...s.heldNotes};delete h[note];return{heldNotes:h};}); }
+  _setWave(w){ if(this._synth)this._synth.set({oscillator:{type:w}}); this.setState({wave:w}); }
+  _setCutoff(v){ if(this._filter)this._filter.frequency.rampTo(v,0.05); this.setState({cutoff:Math.round(v)}); }
+  _setReso(v){ if(this._filter)this._filter.Q.rampTo(v,0.05); this.setState({reso:Math.round(v*10)/10}); }
+  _preset(name){ const p=({pluck:{wave:'sawtooth',cutoff:2400,reso:5},bass:{wave:'sawtooth',cutoff:520,reso:7},pad:{wave:'sawtooth',cutoff:1100,reso:2},lead:{wave:'square',cutoff:3200,reso:3}})[name]; if(!p)return; if(this._synth)this._synth.set({oscillator:{type:p.wave}}); if(this._filter){this._filter.frequency.rampTo(p.cutoff,0.05);this._filter.Q.rampTo(p.reso,0.05);} this.setState({wave:p.wave,cutoff:p.cutoff,reso:p.reso}); }
+  _setVizCanvas=(el)=>{ this._canvas=el; };
+  _scRef=(el)=>{ this._sc=el; };
+  _startViz(){ const draw=()=>{ this._raf=requestAnimationFrame(draw); const c=this._canvas; if(!c)return; const ctx=c.getContext('2d'); const w=c.width,h=c.height; ctx.clearRect(0,0,w,h); let data=null; if(this._analyser){try{data=this._analyser.getValue();}catch(e){}} ctx.lineWidth=2.5; ctx.strokeStyle='#CBF24E'; ctx.shadowColor='#CBF24E'; ctx.shadowBlur=8; ctx.beginPath(); if(data){for(let i=0;i<data.length;i++){const x=(i/(data.length-1))*w;const y=h/2+data[i]*h*0.42;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}}else{ctx.moveTo(0,h/2);ctx.lineTo(w,h/2);} ctx.stroke(); ctx.shadowBlur=0; }; draw(); }
+
+  _ensureEq(){ const T=window.Tone; if(!T||this._eqGain)return; this._eqGain=new T.Gain(0).toDestination(); this._eqPeak=new T.Filter({type:'peaking',frequency:1000,Q:4.5,gain:0}).connect(this._eqGain); this._eqNoise=new T.Noise('pink'); this._eqNoise.volume.value=-13; this._eqNoise.connect(this._eqPeak); this._eqNoise.start(); }
+  _eqNew(){ this.setState({eqAnswerIdx:Math.floor(Math.random()*this.state.eqOptions.length),eqGuessIdx:null,eqRevealed:false}); }
+  async _eqPlay(boosted){ await this._ensureAudio(); this._ensureEq(); const T=window.Tone; if(!T)return; const f=this.state.eqOptions[this.state.eqAnswerIdx]; this._eqPeak.frequency.value=f; this._eqPeak.gain.value=boosted?12:0; const g=this._eqGain.gain,now=T.now(); g.cancelScheduledValues(now); g.setValueAtTime(0.0001,now); g.linearRampToValueAtTime(0.9,now+0.04); g.setValueAtTime(0.9,now+1.25); g.linearRampToValueAtTime(0.0001,now+1.55); this.setState({eqPlaying:boosted?'boost':'flat'}); clearTimeout(this._eqT); this._eqT=setTimeout(()=>this.setState({eqPlaying:null}),1600); }
+  _eqGuess(i){ if(this.state.eqRevealed)return; const c=i===this.state.eqAnswerIdx; this.setState(s=>({eqGuessIdx:i,eqRevealed:true,eqScore:s.eqScore+(c?10:0),eqStreak:c?s.eqStreak+1:0})); }
+  _earNew(){ this.setState({earAnswer:Math.floor(Math.random()*this.state.earSemis.length),earGuess:null,earRevealed:false,earPlayed:false}); }
+  async _earPlay(){ await this._ensureAudio(); const T=window.Tone; if(!T)return; const semis=this.state.earSemis[this.state.earAnswer]; const n2=T.Frequency('C4').transpose(semis).toNote(); const now=T.now(); this._synth.triggerAttackRelease('C4','4n',now,0.7); this._synth.triggerAttackRelease(n2,'4n',now+0.62,0.7); this.setState({earPlayed:true}); }
+  _earGuess(i){ if(this.state.earRevealed)return; const c=i===this.state.earAnswer; this.setState(s=>({earGuess:i,earRevealed:true,earScore:s.earScore+(c?10:0),earStreak:c?s.earStreak+1:0})); }
+  _setChordRoot(i){ this.setState({chordRoot:i}); }
+  _setChordScale(sc){ this.setState({chordScale:sc}); }
+  _chordNotesFor(deg){ const M=[0,2,4,5,7,9,11],m=[0,2,3,5,7,8,10]; const st=this.state.chordScale==='major'?M:m; const r=48+this.state.chordRoot; return [0,2,4].map(k=>{const sd=deg+k;return r+st[sd%7]+Math.floor(sd/7)*12;}); }
+  _midiToNote(x){ const n=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']; return n[x%12]+(Math.floor(x/12)-1); }
+  async _playChord(deg){ await this._ensureAudio(); const T=window.Tone; if(!T)return; const notes=this._chordNotesFor(deg).map(x=>this._midiToNote(x)); this._synth.triggerAttackRelease(notes,'2n'); this.setState({chordActiveDeg:deg}); clearTimeout(this._cT); this._cT=setTimeout(()=>this.setState({chordActiveDeg:null}),750); }
+  async _playProgression(){ await this._ensureAudio(); const T=window.Tone; if(!T)return; const prog=this.state.chordScale==='major'?[0,4,5,3]:[0,5,2,6]; const now=T.now(); prog.forEach((deg,i)=>{const notes=this._chordNotesFor(deg).map(x=>this._midiToNote(x)); this._synth.triggerAttackRelease(notes,'2n',now+i*0.72); T.Draw.schedule(()=>this.setState({chordActiveDeg:deg}),now+i*0.72);}); clearTimeout(this._cT); this._cT=setTimeout(()=>this.setState({chordActiveDeg:null}),3200); }
+
+  _cannedReply(t){ const q=t.toLowerCase(); if(/sidechain|pump|duck/.test(q))return "Sidechain the bass to the kick: put a compressor on the bass, trigger it from the kick, ~3–6 dB of ducking with a fast attack. That's the classic pumping groove."; if(/kick.*bass|bass.*kick|clash|mud/.test(q))return "That's frequency masking. High-pass everything except kick and bass around 100 Hz, carve a dip in the bass where the kick's body sits, and keep both mono below ~120 Hz."; if(/master|loud|lufs/.test(q))return "For streaming, master to about -14 LUFS integrated with true peak under -1 dBTP. Every platform normalises, so chasing loudness just costs you dynamics."; if(/chord|key|scale|melody|progress/.test(q))return "Start in a minor key for that emotional EDM feel — try i–VI–III–VII. Lock everything to the scale, start the bass on each chord's root, loop over 4 or 8 bars."; if(/arrange|structure|drop|build/.test(q))return "Write the drop first, then copy it and remove elements to build the intro and breakdown. Keep changes on 8/16/32-bar boundaries so it stays danceable."; if(/suno|udio|ai|stem/.test(q))return "Use AI as a sketch: batch ideas in Suno/Udio, export stems + MIDI, then finish the arrangement and mix in your DAW. Trust your ears on the final master."; return "Great question! Define your key first so nothing clashes, keep your low end mono and clean, and A/B against a commercial track at matched loudness. Want me to open the right lesson?"; }
+  async _chatSend(){ const text=(this.state.chatInput||'').trim(); if(!text||this.state.chatTyping)return; this.setState(s=>({chat:[...s.chat,{role:'user',text}],chatInput:'',chatTyping:true})); let reply=null; try{ if(window.claude&&window.claude.complete) reply=await window.claude.complete("You are Mouzika's friendly expert electronic-music production tutor. Answer in 2-4 short practical sentences. Q: "+text);}catch(e){} const finish=(r)=>this.setState(s=>({chat:[...s.chat,{role:'tutor',text:r}],chatTyping:false})); if(reply)finish(reply); else setTimeout(()=>finish(this._cannedReply(text)),700); }
+  _keyboard(){ const wn=['C','D','E','F','G','A','B']; const bm={C:'C#',D:'D#',F:'F#',G:'G#',A:'A#'}; const whites=[]; wn.forEach(n=>whites.push(n+'4')); whites.push('C5'); const total=whites.length; const wPct=100/total; const held=this.state.heldNotes; const whiteKeys=whites.map(note=>({note, style:`flex:1;height:100%;border:none;border-right:1px solid #0a0b10;border-radius:0 0 7px 7px;background:${held[note]?'#CBF24E':'linear-gradient(#f4f5f8,#dfe2ea)'};cursor:pointer`, onDown:()=>this._noteOn(note), onUp:()=>this._noteOff(note)})); const blackKeys=[]; whites.forEach((w,idx)=>{ const L=w.replace(/[0-9]/g,''),o=w.replace(/[^0-9]/g,''); if(bm[L]&&idx<total-1){ const note=bm[L]+o; blackKeys.push({note, style:`position:absolute;top:0;height:60%;width:${wPct*0.6}%;left:${(idx+1)*wPct-wPct*0.3}%;background:${held[note]?'#a6cc2e':'linear-gradient(#23262f,#111318)'};border:1px solid #000;border-radius:0 0 5px 5px;cursor:pointer;z-index:2`, onDown:()=>this._noteOn(note), onUp:()=>this._noteOff(note)}); } }); return {whiteKeys,blackKeys}; }
+
+  renderVals(){
+    const tb=this.state.tab, sub=this.state.sub;
+    const t=this._DICT[this.state.lang]||this._DICT.en;
+    const isRTL=this.state.lang==='ar';
+    const langBtns=['en','fr','ar'].map(code=>({label:{en:'EN',fr:'FR',ar:'ع'}[code],onClick:()=>this.setLang(code),style:"min-width:30px;padding:6px 9px;border-radius:8px;border:none;cursor:pointer;font-family:'Space Mono';font-size:11px;font-weight:700;transition:all .14s;"+(this.state.lang===code?"background:#CBF24E;color:#0A0B10;":"background:transparent;color:#8a8f9c;")}));
+    const tabSrc=[{id:'home',icon:'home',label:t.tabs.home},{id:'learn',icon:'school',label:t.tabs.learn},{id:'practice',icon:'fitness_center',label:t.tabs.practice},{id:'tutor',icon:'auto_awesome',label:t.tabs.tutor},{id:'profile',icon:'person',label:t.tabs.profile}];
+    const tabs=tabSrc.map(x=>({icon:x.icon,label:x.label,onClick:()=>this.setTab(x.id),style:`display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:none;cursor:pointer;padding:4px 8px;transition:color .14s;color:${(tb===x.id&&!sub)?'#CBF24E':'#6b6f7d'}`}));
+    const drillSrc=[{id:'eq',name:'EQ Challenge',icon:'equalizer',color:'#CBF24E',sub:'Spot boosted bands'},{id:'chord',name:'Chord Explorer',icon:'music_note',color:'#4FE3E0',sub:'Stay in key'},{id:'ear',name:'Ear Training',icon:'hearing',color:'#FF9A3C',sub:'Name intervals'}];
+    const drills=drillSrc.map(d=>({name:d.name,icon:d.icon,sub:d.sub,onClick:()=>this.openSub(d.id),iconWrap:`width:40px;height:40px;border-radius:11px;background:${d.color}22;display:flex;align-items:center;justify-content:center;color:${d.color}`}));
+    const pathSrc=[{label:'Meet the piano roll',meta:'Complete',st:'done'},{label:'The 12 notes',meta:'Complete',st:'done'},{label:'Build a scale',meta:'In progress',st:'current'},{label:'Major vs minor',meta:'Locked',st:'locked'},{label:'Your first melody',meta:'Locked',st:'locked'}];
+    const path=pathSrc.map((n,i)=>{ const done=n.st==='done',cur=n.st==='current',last=i===pathSrc.length-1; const bg=done?'#CBF24E':(cur?'#CBF24E':'#171922'),col=(done||cur)?'#0A0B10':'#3f4457'; return {label:n.label,meta:n.meta,icon:done?'check':(cur?'star':'lock'),textColor:n.st==='locked'?'#5a5e6b':'#F4F5F7',onClick:(done||cur)?(()=>this.openSub('lesson')):(()=>{}),dot:`flex-shrink:0;width:44px;height:44px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;background:${bg};color:${col};cursor:${(done||cur)?'pointer':'default'};${cur?'box-shadow:0 0 0 5px rgba(203,242,78,0.18);animation:glowm 2.2s ease-in-out infinite;':''}`,line:`width:2px;flex:1;min-height:14px;background:${last?'transparent':(done?'#CBF24E':'rgba(255,255,255,0.1)')}`,card:`flex:1;background:#111219;border:1px solid ${cur?'rgba(203,242,78,0.3)':'rgba(255,255,255,0.06)'};border-radius:14px;padding:12px 14px;margin-bottom:10px`}; });
+    const achSrc=[{icon:'local_fire_department',color:'#FF9A3C',on:true},{icon:'workspace_premium',color:'#CBF24E',on:true},{icon:'bolt',color:'#8B7CFF',on:true},{icon:'graphic_eq',color:'#4FE3E0',on:false},{icon:'star',color:'#FF5C93',on:false}];
+    const achievements=achSrc.map(a=>({icon:a.icon,style:`flex:1;aspect-ratio:1;border-radius:14px;display:flex;align-items:center;justify-content:center;background:${a.on?a.color+'22':'#111219'};border:1px solid ${a.on?a.color+'55':'rgba(255,255,255,0.06)'};color:${a.on?a.color:'#3f4457'}`}));
+    const mk=(h)=>h.map(v=>`width:3px;height:${v}%;border-radius:2px;background:#8B7CFF`);
+    const tracks=[{title:'Neon Skyline',genre:'House · 124 BPM',bars:mk([40,70,55,90,60,80,45,75,50])},{title:'First Light',genre:'Melodic · 122 BPM',bars:mk([60,45,80,55,95,50,70,40,65])}];
+    // sequencer rows
+    const seqCol={kick:'#CBF24E',clap:'#FF5C93',hat:'#4FE3E0'}, seqSh={kick:'#7f9f2b',clap:'#a83c63',hat:'#2f8f8d'}, seqLbl={kick:'Kick',clap:'Clap',hat:'Hat'};
+    const seqRows=['kick','clap','hat'].map(track=>{ const arr=this.state.pattern[track]; const cells=arr.map((active,i)=>{ const isStep=this.state.seqStep===i; let st="aspect-ratio:1;min-width:0;border-radius:5px;border:none;cursor:pointer;transition:transform .06s;"; if(active)st+=`background:${seqCol[track]};box-shadow:0 2px 0 ${seqSh[track]};`; else st+=`background:${isStep?'#23262f':'#171922'};`; if(isStep)st+=`outline:2px solid ${active?'#fff':'rgba(255,255,255,0.4)'};`; return {style:st,onClick:()=>this._toggleCell(track,i)}; }); return {track,label:seqLbl[track],dot:`width:8px;height:8px;border-radius:50%;background:${seqCol[track]}`,cells,onPreview:()=>this._previewDrum(track)}; });
+    const waveOpts=[['sawtooth','SAW'],['square','SQR'],['triangle','TRI'],['sine','SIN']].map(([v,l])=>({label:l,onClick:()=>this._setWave(v),style:"flex:1;font-family:'Space Mono';font-size:11px;font-weight:700;padding:9px 0;border-radius:8px;border:none;cursor:pointer;"+(this.state.wave===v?"background:#CBF24E;color:#0A0B10;":"background:#171922;color:#8a8f9c;")}));
+    const kb=this._keyboard();
+    // eq
+    const eqFmt=(f)=>f>=1000?(f/1000)+' kHz':f+' Hz';
+    const eqCards=this.state.eqOptions.map((f,i)=>{const isA=i===this.state.eqAnswerIdx,isG=i===this.state.eqGuessIdx,rev=this.state.eqRevealed;let bg='#171922',bd='rgba(255,255,255,0.08)',c='#c8ccd6';if(rev){if(isA){bg='rgba(203,242,78,0.15)';bd='#CBF24E';c='#CBF24E';}else if(isG){bg='rgba(255,92,147,0.14)';bd='#FF5C93';c='#FF5C93';}}return{label:eqFmt(f),onClick:()=>this._eqGuess(i),style:`padding:13px 4px;border-radius:11px;border:1.5px solid ${bd};background:${bg};color:${c};font-family:'Space Mono';font-weight:700;font-size:12px;cursor:${rev?'default':'pointer'}`};});
+    const eqCorrect=this.state.eqRevealed&&this.state.eqGuessIdx===this.state.eqAnswerIdx;
+    const eqNames=['Minor 3rd','Major 3rd','Perfect 4th','Tritone','Perfect 5th','Minor 7th','Octave'];
+    const earOptions=eqNames.map((nm,i)=>{const isA=i===this.state.earAnswer,isG=i===this.state.earGuess,rev=this.state.earRevealed;let bg='#171922',bd='rgba(255,255,255,0.08)',c='#c8ccd6';if(rev){if(isA){bg='rgba(203,242,78,0.15)';bd='#CBF24E';c='#CBF24E';}else if(isG){bg='rgba(255,92,147,0.14)';bd='#FF5C93';c='#FF5C93';}}return{label:nm,onClick:()=>this._earGuess(i),style:`padding:14px;border-radius:12px;border:1.5px solid ${bd};background:${bg};color:${c};font-family:'Hanken Grotesk';font-weight:600;font-size:13.5px;text-align:start;cursor:${rev?'default':'pointer'}`};});
+    const earCorrect=this.state.earRevealed&&this.state.earGuess===this.state.earAnswer;
+    const nn=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+    const chordRootBtns=nn.map((n,i)=>({label:n,onClick:()=>this._setChordRoot(i),style:`padding:8px 0;border-radius:8px;border:none;cursor:pointer;font-family:'Space Mono';font-weight:700;font-size:11.5px;`+(this.state.chordRoot===i?`background:#4FE3E0;color:#0A0B10;`:`background:#171922;color:#8a8f9c;`)}));
+    const chordScaleBtns=[['major','Major'],['minor','Minor']].map(([v,l])=>({label:l,onClick:()=>this._setChordScale(v),style:`flex:1;padding:9px 0;border-radius:8px;border:none;cursor:pointer;font-family:'Hanken Grotesk';font-weight:700;font-size:12.5px;`+(this.state.chordScale===v?`background:#4FE3E0;color:#0A0B10;`:`background:#171922;color:#8a8f9c;`)}));
+    const romans=this.state.chordScale==='major'?['I','ii','iii','IV','V','vi','vii°']:['i','ii°','III','iv','v','VI','VII'];
+    const chordPads=romans.map((r,deg)=>{const notes=this._chordNotesFor(deg).map(x=>this._midiToNote(x).replace(/[0-9]/g,''));const act=this.state.chordActiveDeg===deg;return{roman:r,notes:notes.join(' '),onClick:()=>this._playChord(deg),style:`display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 2px;border-radius:11px;border:1.5px solid ${act?'#4FE3E0':'rgba(255,255,255,0.08)'};background:${act?'rgba(79,227,224,0.15)':'#111219'};cursor:pointer`};});
+    const chatMsgs=this.state.chat.map(m=>({text:m.text,rowStyle:`display:flex;justify-content:${m.role==='user'?'flex-end':'flex-start'}`,bubbleStyle:m.role==='user'?"max-width:82%;background:#CBF24E;color:#0A0B10;padding:11px 14px;border-radius:15px 15px 4px 15px;font-size:13.5px;line-height:1.5;font-weight:500":"max-width:86%;background:#171922;color:#e4e7ee;padding:11px 14px;border-radius:15px 15px 15px 4px;font-size:13.5px;line-height:1.55;border:1px solid rgba(255,255,255,0.06)"}));
+
+    return {
+      darkTrue:true, dir:isRTL?'rtl':'ltr', isRTL, t, langBtns, tabs, scrollRef:this._scRef,
+      isHome:tb==='home'&&!sub, isLearn:tb==='learn'&&!sub, isPractice:tb==='practice'&&!sub, isTutor:tb==='tutor'&&!sub, isProfile:tb==='profile'&&!sub,
+      isLesson:sub==='lesson', isStudio:sub==='studio', isEq:sub==='eq', isEar:sub==='ear', isChord:sub==='chord',
+      openLesson:()=>this.openSub('lesson'), openStudio:()=>this.openSub('studio'), back:()=>this.back(),
+      drills, path, achievements, tracks,
+      seqRows, bpm:this.state.bpm, playIcon:this.state.seqPlaying?'pause':'play_arrow', toggleSeq:()=>this._toggleSeq(), clearSeq:()=>this._clearSeq(), setBpm:(e)=>this._setBpm(+e.target.value),
+      vizRef:this._setVizCanvas, wave:this.state.wave, cutoff:this.state.cutoff, reso:this.state.reso, waveOpts, whiteKeys:kb.whiteKeys, blackKeys:kb.blackKeys, setCutoff:(e)=>this._setCutoff(+e.target.value), setReso:(e)=>this._setReso(+e.target.value), preset:(e)=>this._preset(e.currentTarget.dataset.arg),
+      eqCards, eqPlayFlat:()=>this._eqPlay(false), eqPlayBoost:()=>this._eqPlay(true), eqNext:()=>this._eqNew(), eqRevealed:this.state.eqRevealed, eqScore:this.state.eqScore, eqStreak:this.state.eqStreak,
+      eqResultText:this.state.eqRevealed?(eqCorrect?'Correct! +10':('Not quite · it was '+eqFmt(this.state.eqOptions[this.state.eqAnswerIdx]))):'', eqResultColor:eqCorrect?'#CBF24E':'#FF5C93',
+      earOptions, earPlay:()=>this._earPlay(), earNext:()=>this._earNew(), earPlayed:this.state.earPlayed, earNotPlayed:!this.state.earPlayed, earRevealed:this.state.earRevealed, earScore:this.state.earScore, earStreak:this.state.earStreak,
+      earResultText:this.state.earRevealed?(earCorrect?'Correct! +10':('Not quite · it was '+eqNames[this.state.earAnswer])):'', earResultColor:earCorrect?'#CBF24E':'#FF5C93',
+      chordRootBtns, chordScaleBtns, chordPads, playProgression:()=>this._playProgression(),
+      chatMsgs, chatTyping:this.state.chatTyping, chatInput:this.state.chatInput, setChatInput:(e)=>this.setState({chatInput:e.target.value}), chatKey:(e)=>{if(e.key==='Enter'){e.preventDefault();this._chatSend();}}, chatSend:()=>this._chatSend()
+    };
+  }
+}
+</script>
+</body>
+</html>

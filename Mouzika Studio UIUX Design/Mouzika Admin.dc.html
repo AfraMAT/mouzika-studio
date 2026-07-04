@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..0&display=block" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#08090d}
+::selection{background:rgba(203,242,78,0.28);color:#fff}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#262932;border-radius:8px;border:2px solid #08090d}
+::-webkit-scrollbar-track{background:transparent}
+@keyframes eq{0%,100%{transform:scaleY(0.32)}50%{transform:scaleY(1)}}
+@keyframes admrise{0%{transform:translateY(10px);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes admtoast{0%{transform:translateY(20px);opacity:0}100%{transform:translateY(0);opacity:1}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;background:#08090d;color:#F4F5F7;font-family:'Hanken Grotesk',sans-serif;-webkit-font-smoothing:antialiased">
+
+  <!-- sidebar -->
+  <aside style="width:244px;flex-shrink:0;position:sticky;top:0;height:100vh;background:#0c0d13;border-right:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;padding:20px 14px 16px;z-index:20">
+    <div style="display:flex;align-items:center;gap:11px;padding:4px 8px 20px">
+      <div style="display:flex;align-items:flex-end;gap:2.5px;height:22px"><div style="width:4px;height:9px;background:#CBF24E;border-radius:2px;transform-origin:bottom;animation:eq 1.1s ease-in-out -0.2s infinite"></div><div style="width:4px;height:20px;background:#CBF24E;border-radius:2px;transform-origin:bottom;animation:eq 0.85s ease-in-out -0.5s infinite"></div><div style="width:4px;height:13px;background:#CBF24E;border-radius:2px;transform-origin:bottom;animation:eq 1.3s ease-in-out 0s infinite"></div><div style="width:4px;height:22px;background:#CBF24E;border-radius:2px;transform-origin:bottom;animation:eq 0.75s ease-in-out -0.35s infinite"></div></div>
+      <div><div style="font-family:'Space Grotesk';font-weight:700;font-size:16px;line-height:1">mouzika<span style="color:#CBF24E">.studio</span></div><div style="font-family:'Space Mono';font-size:9.5px;letter-spacing:0.14em;color:#6b6f7d;margin-top:2px">ADMIN CONSOLE</div></div>
+    </div>
+    <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:18px">
+      <sc-for list="{{ navGroups }}" as="g" hint-placeholder-count="3">
+        <div>
+          <div style="font-family:'Space Mono';font-size:10px;letter-spacing:0.1em;color:#4a4e5a;padding:0 10px 8px">{{ g.label }}</div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3">
+              <button onClick="{{ it.onClick }}" style="{{ it.style }}"><span style="font-family:'Material Symbols Rounded';font-size:21px">{{ it.icon }}</span>{{ it.label }}<sc-if value="{{ it.badge }}" hint-placeholder-val="{{ false }}"><span style="{{ it.badgeStyle }}">{{ it.badge }}</span></sc-if></button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <a href="Mouzika Studio.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-top:14px;padding:11px 12px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);transition:background .14s" style-hover="background:rgba(255,255,255,0.08)">
+      <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#8B7CFF,#4FE3E0);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:13px;color:#0A0B10">M</div>
+      <div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;color:#e4e7ee;line-height:1.2">Maya · Admin</div><div style="font-size:11px;color:#6b6f7d">View live app</div></div>
+      <span style="font-family:'Material Symbols Rounded';font-size:18px;color:#6b6f7d">open_in_new</span>
+    </a>
+  </aside>
+
+  <!-- main -->
+  <main style="flex:1;min-width:0;display:flex;flex-direction:column">
+    <div style="position:sticky;top:0;z-index:15;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 30px;background:rgba(8,9,13,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.06)">
+      <div><h1 style="font-family:'Space Grotesk';font-weight:700;font-size:21px;letter-spacing:-0.02em;margin:0">{{ viewTitle }}</h1><div style="font-size:13px;color:#8a8f9c;margin-top:2px">{{ viewSub }}</div></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:9px;background:#14161d;border:1px solid rgba(255,255,255,0.09);border-radius:11px;padding:9px 13px;width:230px"><span style="font-family:'Material Symbols Rounded';font-size:18px;color:#6b6f7d">search</span><span style="font-size:13px;color:#5a5e6b">Search…</span></div>
+        <button style="position:relative;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:11px;border:1px solid rgba(255,255,255,0.09);background:#14161d;color:#c8ccd6;cursor:pointer"><span style="font-family:'Material Symbols Rounded';font-size:21px">notifications</span><span style="position:absolute;top:9px;right:10px;width:7px;height:7px;border-radius:50%;background:#FF5C93;border:2px solid #14161d"></span></button>
+      </div>
+    </div>
+
+    <div style="flex:1;padding:26px 30px 60px;max-width:1240px;width:100%">
+
+      <!-- DASHBOARD -->
+      <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ true }}">
+      <div style="animation:admrise .3s ease-out">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px">
+          <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="6">
+            <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+                <div style="{{ k.iconWrap }}"><span style="font-family:'Material Symbols Rounded';font-size:20px">{{ k.icon }}</span></div>
+                <div style="display:flex;align-items:center;gap:3px;font-family:'Space Mono';font-size:11.5px;color:{{ k.deltaColor }}"><span style="font-family:'Material Symbols Rounded';font-size:15px">{{ k.arrow }}</span>{{ k.delta }}</div>
+              </div>
+              <div style="font-family:'Space Grotesk';font-weight:700;font-size:28px;letter-spacing:-0.02em;line-height:1">{{ k.value }}</div>
+              <div style="font-size:12.5px;color:#8a8f9c;margin-top:5px">{{ k.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px"><div><div style="font-family:'Space Grotesk';font-weight:700;font-size:16px">New signups</div><div style="font-size:12px;color:#8a8f9c;margin-top:2px">Last 12 weeks</div></div><div style="font-family:'Space Mono';font-size:11px;color:#CBF24E;border:1px solid rgba(203,242,78,0.3);border-radius:8px;padding:5px 10px">+18% QoQ</div></div>
+            <div style="display:flex;align-items:flex-end;gap:6px;height:170px">
+              <sc-for list="{{ chartBars }}" as="b" hint-placeholder-count="12"><div style="{{ b.style }}"></div></sc-for>
+            </div>
+          </div>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+            <div style="font-family:'Space Grotesk';font-weight:700;font-size:16px;margin-bottom:20px">Activation funnel</div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <sc-for list="{{ funnel }}" as="f" hint-placeholder-count="4">
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:#c8ccd6">{{ f.label }}</span><span style="font-family:'Space Mono';font-size:12px;color:#8a8f9c">{{ f.value }}</span></div>
+                  <div style="height:9px;background:#1a1c24;border-radius:100px;overflow:hidden"><div style="{{ f.barStyle }}"></div></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+            <div style="font-family:'Space Grotesk';font-weight:700;font-size:16px;margin-bottom:16px">Recent activity</div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <sc-for list="{{ activity }}" as="a" hint-placeholder-count="5">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="{{ a.iconWrap }}"><span style="font-family:'Material Symbols Rounded';font-size:17px">{{ a.icon }}</span></div>
+                  <div style="flex:1;min-width:0;font-size:13.5px;color:#c8ccd6;line-height:1.4">{{ a.text }}</div>
+                  <span style="font-family:'Space Mono';font-size:11px;color:#5a5e6b;flex-shrink:0">{{ a.time }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px"><div style="font-family:'Space Grotesk';font-weight:700;font-size:16px">Content review queue</div><button onClick="{{ goContent }}" style="font-family:'Hanken Grotesk';font-weight:600;font-size:12.5px;color:#CBF24E;background:transparent;border:none;cursor:pointer">Open →</button></div>
+            <div style="display:flex;flex-direction:column;gap:11px">
+              <sc-for list="{{ queuePreview }}" as="q" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#0c0d13;border:1px solid rgba(255,255,255,0.05);border-radius:12px">
+                  <span style="{{ q.dotStyle }}"></span>
+                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#e4e7ee;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ q.title }}</div><div style="font-family:'Space Mono';font-size:10.5px;color:#6b6f7d;margin-top:2px">{{ q.type }} · {{ q.conf }}%</div></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- CONTENT ENGINE -->
+      <sc-if value="{{ isContent }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:admrise .3s ease-out">
+        <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px 22px;margin-bottom:18px">
+          <div style="font-family:'Space Mono';font-size:10.5px;letter-spacing:0.08em;color:#6b6f7d;margin-bottom:16px">HUMAN-IN-THE-LOOP PIPELINE</div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <sc-for list="{{ pipeline }}" as="p" hint-placeholder-count="6">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+                <div style="width:42px;height:42px;border-radius:12px;background:rgba(203,242,78,0.1);border:1px solid rgba(203,242,78,0.25);display:flex;align-items:center;justify-content:center"><span style="font-family:'Material Symbols Rounded';font-size:21px;color:#CBF24E">{{ p.icon }}</span></div>
+                <div><div style="font-family:'Space Mono';font-size:9px;color:#5a5e6b">{{ p.n }}</div><div style="font-size:11.5px;color:#c8ccd6;line-height:1.2;margin-top:1px">{{ p.label }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="display:flex;gap:5px;background:#0c0d13;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:5px">
+            <sc-for list="{{ contentTabs }}" as="tab" hint-placeholder-count="3"><button onClick="{{ tab.onClick }}" style="{{ tab.style }}">{{ tab.label }}</button></sc-for>
+          </div>
+          <button style="display:flex;align-items:center;gap:8px;font-family:'Hanken Grotesk';font-weight:700;font-size:13.5px;color:#0A0B10;background:#CBF24E;border:none;border-radius:12px;padding:11px 18px;cursor:pointer;box-shadow:0 3px 0 #7f9f2b" style-active="transform:translateY(2px);box-shadow:0 1px 0 #7f9f2b"><span style="font-family:'Material Symbols Rounded';font-size:18px">upload_file</span>Upload source</button>
+        </div>
+        <sc-if value="{{ isQueueTab }}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{ queueEmpty }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;padding:70px 20px;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px"><span style="font-family:'Material Symbols Rounded';font-size:42px;color:#CBF24E">task_alt</span><div style="font-family:'Space Grotesk';font-weight:700;font-size:18px;margin-top:12px">Queue clear</div><div style="font-size:13.5px;color:#8a8f9c;margin-top:4px">Every proposed change has been reviewed. Nice work.</div></div></sc-if>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ queue }}" as="q" hint-placeholder-count="4">
+              <div style="background:#111219;border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:22px">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px">
+                  <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:10px;margin-bottom:7px"><span style="{{ q.typeStyle }}">{{ q.type }}</span><span style="font-family:'Space Mono';font-size:11px;color:#6b6f7d">{{ q.source }} · {{ q.date }}</span></div><div style="font-family:'Space Grotesk';font-weight:600;font-size:16.5px;line-height:1.3">{{ q.title }}</div></div>
+                  <div style="flex-shrink:0;width:120px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-family:'Space Mono';font-size:9.5px;color:#6b6f7d">CONFIDENCE</span><span style="font-family:'Space Mono';font-size:11px;color:#c8ccd6">{{ q.conf }}%</span></div><div style="height:7px;background:#1a1c24;border-radius:100px;overflow:hidden"><div style="{{ q.confBar }}"></div></div></div>
+                </div>
+                <div style="background:#0a0b10;border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:14px 16px;margin-bottom:16px;font-family:'Space Mono';font-size:12.5px;line-height:1.7">
+                  <sc-if value="{{ q.hasRemoved }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ q.removed }}" as="line" hint-placeholder-count="1"><div style="color:#FF7DA6;background:rgba(255,92,147,0.08);border-radius:5px;padding:2px 8px;margin:2px 0">− {{ line }}</div></sc-for></sc-if>
+                  <sc-if value="{{ q.hasAdded }}" hint-placeholder-val="{{ true }}"><sc-for list="{{ q.added }}" as="line" hint-placeholder-count="2"><div style="color:#CBF24E;background:rgba(203,242,78,0.08);border-radius:5px;padding:2px 8px;margin:2px 0">+ {{ line }}</div></sc-for></sc-if>
+                </div>
+                <div style="display:flex;gap:10px">
+                  <button onClick="{{ q.approve }}" style="display:flex;align-items:center;gap:7px;font-family:'Hanken Grotesk';font-weight:700;font-size:13.5px;color:#0A0B10;background:#CBF24E;border:none;border-radius:11px;padding:11px 20px;cursor:pointer;box-shadow:0 3px 0 #7f9f2b" style-active="transform:translateY(2px);box-shadow:0 1px 0 #7f9f2b"><span style="font-family:'Material Symbols Rounded';font-size:17px">check</span>Approve &amp; publish</button>
+                  <button style="font-family:'Hanken Grotesk';font-weight:600;font-size:13.5px;color:#c8ccd6;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:11px 18px;cursor:pointer" style-hover="background:rgba(255,255,255,0.09)">Edit</button>
+                  <button onClick="{{ q.reject }}" style="font-family:'Hanken Grotesk';font-weight:600;font-size:13.5px;color:#FF7DA6;background:rgba(255,92,147,0.08);border:1px solid rgba(255,92,147,0.2);border-radius:11px;padding:11px 18px;cursor:pointer" style-hover="background:rgba(255,92,147,0.14)">Reject</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isSourcesTab }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ kbSources }}" as="sc" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:14px;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px 20px"><span style="font-family:'Material Symbols Rounded';font-size:22px;color:#8a8f9c">rss_feed</span><div style="flex:1"><div style="font-family:'Space Grotesk';font-weight:600;font-size:15px">{{ sc.name }}</div><div style="font-family:'Space Mono';font-size:11px;color:#6b6f7d;margin-top:2px">{{ sc.type }}</div></div><div style="font-family:'Space Mono';font-size:11px;color:#6b6f7d">Last sync {{ sc.last }}</div><span style="{{ sc.statusStyle }}"><span style="{{ sc.dot }}"></span></span></div></sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isReleasesTab }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ releases }}" as="r" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:16px;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px 20px"><div style="font-family:'Space Mono';font-weight:700;font-size:14px;color:#CBF24E;width:70px">{{ r.ver }}</div><div style="flex:1"><div style="font-size:14px;color:#e4e7ee">{{ r.changes }}</div><div style="font-family:'Space Mono';font-size:11px;color:#6b6f7d;margin-top:2px">{{ r.date }} · by {{ r.by }}</div></div><span style="font-family:'Space Mono';font-size:10px;font-weight:700;color:#CBF24E;background:rgba(203,242,78,0.12);padding:4px 9px;border-radius:6px">PUBLISHED</span></div></sc-for>
+          </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <!-- CURRICULUM -->
+      <sc-if value="{{ isCurriculum }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:320px 1fr;gap:16px;animation:admrise .3s ease-out">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ courses }}" as="c" hint-placeholder-count="8">
+            <button onClick="{{ c.onClick }}" style="{{ c.rowStyle }}">
+              <div style="{{ c.iconWrap }}">{{ c.icon }}</div>
+              <div style="flex:1;min-width:0"><div style="font-family:'Space Grotesk';font-weight:600;font-size:14px;line-height:1.2">{{ c.name }}</div><div style="font-size:11.5px;color:#6b6f7d;margin-top:2px">{{ c.lessons }}</div></div>
+              <span style="{{ c.statusStyle }}">{{ c.status }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+            <div><h2 style="font-family:'Space Grotesk';font-weight:700;font-size:20px;margin:0">{{ curCourseName }}</h2><div style="font-size:12.5px;color:#8a8f9c;margin-top:3px">{{ curCourseLessons }}</div></div>
+            <div style="display:flex;gap:9px"><button style="display:flex;align-items:center;gap:6px;font-family:'Hanken Grotesk';font-weight:600;font-size:13px;color:#c8ccd6;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:9px 14px;cursor:pointer" style-hover="background:rgba(255,255,255,0.09)"><span style="font-family:'Material Symbols Rounded';font-size:17px">add</span>Module</button><button style="display:flex;align-items:center;gap:6px;font-family:'Hanken Grotesk';font-weight:700;font-size:13px;color:#0A0B10;background:#CBF24E;border:none;border-radius:10px;padding:9px 14px;cursor:pointer;box-shadow:0 3px 0 #7f9f2b" style-active="transform:translateY(2px);box-shadow:0 1px 0 #7f9f2b"><span style="font-family:'Material Symbols Rounded';font-size:17px">add</span>Lesson</button></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <sc-for list="{{ modules }}" as="m" hint-placeholder-count="2">
+              <div>
+                <div style="font-family:'Space Mono';font-size:11px;letter-spacing:0.04em;color:#8a8f9c;margin-bottom:10px">{{ m.name }}</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ m.lessons }}" as="l" hint-placeholder-count="4">
+                    <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:#0c0d13;border:1px solid rgba(255,255,255,0.05);border-radius:11px">
+                      <span style="font-family:'Material Symbols Rounded';font-size:18px;color:#4a4e5a;cursor:grab">drag_indicator</span>
+                      <span style="flex:1;font-size:14px;color:#e4e7ee">{{ l.t }}</span>
+                      <span style="{{ l.kindStyle }}">{{ l.kind }}</span>
+                      <span style="{{ l.stStyle }}">{{ l.st }}</span>
+                      <span style="font-family:'Material Symbols Rounded';font-size:19px;color:#6b6f7d;cursor:pointer">more_horiz</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- USERS -->
+      <sc-if value="{{ isUsers }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:admrise .3s ease-out">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:9px;background:#14161d;border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:10px 14px;flex:1;max-width:360px"><span style="font-family:'Material Symbols Rounded';font-size:19px;color:#6b6f7d">search</span><input value="{{ userQuery }}" onInput="{{ setUserQuery }}" placeholder="Search by name or handle…" style="flex:1;background:transparent;border:none;outline:none;color:#F4F5F7;font-family:'Hanken Grotesk';font-size:14px" /></div>
+          <span style="font-family:'Space Mono';font-size:12px;color:#6b6f7d">{{ userCount }} shown</span>
+        </div>
+        <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;overflow:hidden">
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;padding:14px 22px;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'Space Mono';font-size:10.5px;letter-spacing:0.06em;color:#5a5e6b"><span>USER</span><span>PLAN</span><span>STREAK</span><span>STATUS</span><span>JOINED</span></div>
+          <sc-for list="{{ users }}" as="u" hint-placeholder-count="8">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;padding:14px 22px;border-bottom:1px solid rgba(255,255,255,0.04);align-items:center">
+              <div style="display:flex;align-items:center;gap:11px;min-width:0"><div style="{{ u.avatarStyle }}">{{ u.initial }}</div><div style="min-width:0"><div style="font-size:14px;font-weight:600;color:#e4e7ee;line-height:1.2">{{ u.name }}</div><div style="font-family:'Space Mono';font-size:11px;color:#6b6f7d">{{ u.handle }}</div></div></div>
+              <div><span style="{{ u.planStyle }}">{{ u.plan }}</span></div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:13px;color:#c8ccd6"><span style="font-family:'Material Symbols Rounded';font-size:17px;color:#FF9A3C;font-variation-settings:'FILL' 1">local_fire_department</span>{{ u.streak }}</div>
+              <div><span style="{{ u.statusStyle }}"><span style="{{ u.dotStyle }}"></span>{{ u.status }}</span></div>
+              <div style="font-size:13px;color:#8a8f9c">{{ u.joined }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ANALYTICS -->
+      <sc-if value="{{ isAnalytics }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:admrise .3s ease-out">
+        <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px">
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div style="font-family:'Space Grotesk';font-weight:700;font-size:16px">Daily active users</div><div style="font-family:'Space Mono';font-size:11px;color:#CBF24E">14-day trend</div></div>
+            <div style="display:flex;align-items:flex-end;gap:5px;height:150px"><sc-for list="{{ dauTrend }}" as="b" hint-placeholder-count="14"><div style="{{ b.style }}"></div></sc-for></div>
+          </div>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+            <div style="font-family:'Space Grotesk';font-weight:700;font-size:16px;margin-bottom:20px">Retention curve</div>
+            <div style="display:flex;align-items:flex-end;gap:6px;height:150px">
+              <sc-for list="{{ retention }}" as="r" hint-placeholder-count="8"><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%"><div style="flex:1;width:100%;display:flex;align-items:flex-end"><div style="{{ r.style }}"></div></div><span style="font-family:'Space Mono';font-size:9px;color:#5a5e6b">{{ r.label }}</span></div></sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+          <div style="font-family:'Space Grotesk';font-weight:700;font-size:16px;margin-bottom:20px">What people are making</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ genreSplit }}" as="g" hint-placeholder-count="6"><div style="display:flex;align-items:center;gap:14px"><span style="width:70px;font-size:13px;color:#c8ccd6">{{ g.name }}</span><div style="flex:1;height:8px;background:#1a1c24;border-radius:100px;overflow:hidden"><div style="{{ g.barStyle }}"></div></div><span style="width:40px;text-align:end;font-family:'Space Mono';font-size:12px;color:#8a8f9c">{{ g.pct }}</span></div></sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- SUBSCRIPTIONS -->
+      <sc-if value="{{ isSubs }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:admrise .3s ease-out">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px">
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px"><div style="font-size:12.5px;color:#8a8f9c;margin-bottom:8px">MRR</div><div style="font-family:'Space Grotesk';font-weight:700;font-size:26px">$164K</div><div style="font-family:'Space Mono';font-size:11px;color:#CBF24E;margin-top:5px">+5.8% MoM</div></div>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px"><div style="font-size:12.5px;color:#8a8f9c;margin-bottom:8px">ARR (run-rate)</div><div style="font-family:'Space Grotesk';font-weight:700;font-size:26px">$1.97M</div><div style="font-family:'Space Mono';font-size:11px;color:#CBF24E;margin-top:5px">+62% YoY</div></div>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px"><div style="font-size:12.5px;color:#8a8f9c;margin-bottom:8px">Free → paid</div><div style="font-family:'Space Grotesk';font-weight:700;font-size:26px">9.5%</div><div style="font-family:'Space Mono';font-size:11px;color:#CBF24E;margin-top:5px">+0.6 pts</div></div>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px"><div style="font-size:12.5px;color:#8a8f9c;margin-bottom:8px">ARPU</div><div style="font-family:'Space Grotesk';font-weight:700;font-size:26px">$13.4</div><div style="font-family:'Space Mono';font-size:11px;color:#8a8f9c;margin-top:5px">/mo</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:16px">
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+            <div style="font-family:'Space Grotesk';font-weight:700;font-size:16px;margin-bottom:18px">Paid plan mix</div>
+            <div style="display:flex;flex-direction:column;gap:18px">
+              <sc-for list="{{ plans }}" as="p" hint-placeholder-count="2"><div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px"><span style="width:9px;height:9px;border-radius:50%;background:{{ p.dotColor }}"></span><span style="font-size:14px;font-weight:600;color:#e4e7ee">{{ p.name }}</span><span style="font-size:12px;color:#6b6f7d">{{ p.sub }}</span></div><span style="font-family:'Space Grotesk';font-weight:700;font-size:15px">{{ p.count }}</span></div><div style="background:#1a1c24;border-radius:100px;overflow:hidden"><div style="{{ p.barStyle }}"></div></div></div></sc-for>
+            </div>
+            <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between"><span style="font-size:13px;color:#8a8f9c">Free accounts</span><span style="font-family:'Space Grotesk';font-weight:700;font-size:15px;color:#c8ccd6">116,240</span></div>
+          </div>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+            <div style="font-family:'Space Grotesk';font-weight:700;font-size:16px;margin-bottom:16px">Recent transactions</div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ transactions }}" as="x" hint-placeholder-count="5"><div style="display:flex;align-items:center;gap:12px"><span style="font-family:'Material Symbols Rounded';font-size:19px;color:#6b6f7d">receipt_long</span><div style="flex:1;min-width:0"><div style="font-size:13.5px;color:#e4e7ee">{{ x.user }}</div><div style="font-family:'Space Mono';font-size:11px;color:#6b6f7d">{{ x.plan }}</div></div><span style="font-family:'Space Grotesk';font-weight:700;font-size:14px;color:{{ x.amtColor }}">{{ x.amt }}</span><span style="font-family:'Space Mono';font-size:11px;color:#5a5e6b;width:34px;text-align:end">{{ x.time }}</span></div></sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- AI TUTOR -->
+      <sc-if value="{{ isTutor }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:16px;animation:admrise .3s ease-out">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div style="font-family:'Space Grotesk';font-weight:700;font-size:16px">System prompt</div><button style="font-family:'Hanken Grotesk';font-weight:600;font-size:12.5px;color:#CBF24E;background:transparent;border:none;cursor:pointer">Edit</button></div>
+            <div style="background:#0a0b10;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px;font-family:'Space Mono';font-size:12.5px;line-height:1.65;color:#a7abb8">You are Mouzika's friendly, expert electronic-music production tutor. Answer in the learner's language. Ground every answer in the current lesson context and the production knowledge base. Keep replies to 2–4 practical, encouraging sentences. Never invent plugin names or specs — if unsure, say so and point to the right lesson. Always end mixing/mastering advice with "trust your ears."</div>
+          </div>
+          <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+            <div style="font-family:'Space Grotesk';font-weight:700;font-size:16px;margin-bottom:16px">Behaviour</div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13.5px;color:#c8ccd6">Target difficulty (accuracy band)</span><span style="font-family:'Space Mono';font-size:12px;color:#CBF24E">80–90%</span></div><div style="height:7px;background:#1a1c24;border-radius:100px;overflow:hidden"><div style="height:100%;width:85%;background:#CBF24E;border-radius:100px"></div></div></div>
+              <div style="display:flex;gap:10px"><div style="flex:1;background:#0c0d13;border:1px solid rgba(255,255,255,0.06);border-radius:11px;padding:13px"><div style="font-family:'Space Mono';font-size:10px;color:#6b6f7d;margin-bottom:5px">MODEL</div><div style="font-size:13.5px;color:#e4e7ee">Claude · tutor-tuned</div></div><div style="flex:1;background:#0c0d13;border:1px solid rgba(255,255,255,0.06);border-radius:11px;padding:13px"><div style="font-family:'Space Mono';font-size:10px;color:#6b6f7d;margin-bottom:5px">GROUNDING</div><div style="font-size:13.5px;color:#e4e7ee">RAG · KB v14</div></div></div>
+            </div>
+          </div>
+        </div>
+        <div style="background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px">
+          <div style="font-family:'Space Grotesk';font-weight:700;font-size:16px;margin-bottom:16px">Knowledge sources</div>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ tutorKB }}" as="k" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:12px;padding:13px;background:#0c0d13;border:1px solid rgba(255,255,255,0.05);border-radius:12px"><span style="font-family:'Material Symbols Rounded';font-size:20px;color:#8B7CFF">database</span><div style="flex:1"><div style="font-size:13.5px;font-weight:600;color:#e4e7ee">{{ k.name }}</div><div style="font-family:'Space Mono';font-size:11px;color:#6b6f7d;margin-top:2px">{{ k.items }}</div></div><span style="{{ k.statusStyle }}"><span style="{{ k.dot }}"></span>{{ k.status }}</span></div></sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- MODERATION -->
+      <sc-if value="{{ isModeration }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:admrise .3s ease-out">
+        <sc-if value="{{ modEmpty }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;padding:70px 20px;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:18px"><span style="font-family:'Material Symbols Rounded';font-size:42px;color:#CBF24E">verified_user</span><div style="font-family:'Space Grotesk';font-weight:700;font-size:18px;margin-top:12px">Nothing to review</div><div style="font-size:13.5px;color:#8a8f9c;margin-top:4px">The community queue is all clear.</div></div></sc-if>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ modQueue }}" as="m" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:16px;background:#111219;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:18px 20px">
+              <span style="{{ m.kindStyle }}">{{ m.kind }}</span>
+              <div style="flex:1;min-width:0"><div style="font-size:14.5px;color:#e4e7ee;line-height:1.35">{{ m.title }}</div><div style="font-family:'Space Mono';font-size:11px;color:#6b6f7d;margin-top:3px">{{ m.user }} · {{ m.meta }}</div></div>
+              <span style="{{ m.flagStyle }}">{{ m.flag }}</span>
+              <div style="display:flex;gap:8px;flex-shrink:0">
+                <button onClick="{{ m.approve }}" style="display:flex;align-items:center;gap:6px;font-family:'Hanken Grotesk';font-weight:700;font-size:13px;color:#0A0B10;background:#CBF24E;border:none;border-radius:10px;padding:9px 15px;cursor:pointer;box-shadow:0 3px 0 #7f9f2b" style-active="transform:translateY(2px);box-shadow:0 1px 0 #7f9f2b"><span style="font-family:'Material Symbols Rounded';font-size:16px">check</span>Approve</button>
+                <button onClick="{{ m.remove }}" style="font-family:'Hanken Grotesk';font-weight:600;font-size:13px;color:#FF7DA6;background:rgba(255,92,147,0.08);border:1px solid rgba(255,92,147,0.2);border-radius:10px;padding:9px 15px;cursor:pointer" style-hover="background:rgba(255,92,147,0.14)">Remove</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <!--ADMIN-SLOT-->
+
+    </div>
+  </main>
+
+  <!-- toast -->
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:3000;display:flex;align-items:center;gap:10px;background:#171922;border:1px solid rgba(203,242,78,0.4);border-radius:13px;padding:13px 20px;box-shadow:0 18px 50px rgba(0,0,0,0.6);animation:admtoast .25s ease-out">
+      <span style="font-family:'Material Symbols Rounded';font-size:20px;color:#CBF24E">check_circle</span>
+      <span style="font-size:13.5px;font-weight:600;color:#e4e7ee">{{ toast }}</span>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    view:'dashboard', contentTab:'queue', course:0, userQuery:'', toast:null,
+    queue:[
+      {id:1, title:'Suno v5 raises stem separation to 12 tracks', type:'Net-new', typeColor:'#CBF24E', source:'suno.com/changelog', date:'Jul 2, 2026', conf:92, added:['Suno Studio now exports up to 12 stems (was 8).','Adds persona voice cloning + MIDI export in Studio.'], removed:[]},
+      {id:2, title:'Ableton Live 12.3 ships native stem separation', type:'Net-new', typeColor:'#4FE3E0', source:'ableton.com/blog', date:'Jul 1, 2026', conf:88, added:['Live 12.3 adds native stem separation in Suite.'], removed:[]},
+      {id:3, title:'Streaming loudness target conflict', type:'Contradicts', typeColor:'#FF9A3C', source:'producer-newsletter', date:'Jun 30, 2026', conf:58, added:['Source claims platforms now normalise to -13 LUFS.'], removed:['-14 LUFS integrated, -1 dBTP (current KB entry).']},
+      {id:4, title:'Serum pricing entry is outdated', type:'Stale', typeColor:'#FF5C93', source:'kb-audit-bot', date:'Jun 29, 2026', conf:76, added:[], removed:['"Serum costs $189" — Serum 2 shipped, re-verify pricing.']}
+    ],
+    modQueue:[
+      {id:1, kind:'Track', title:'Midnight Drive (WIP)', user:'k_rhodes', meta:'House · 124 BPM · 3:42', flag:'Auto-scan: clear', flagColor:'#CBF24E'},
+      {id:2, kind:'Comment', title:'"this drop is absolutely insane, teach me"', user:'lo_fi_liv', meta:'on "Neon Skyline"', flag:'Reported ×1', flagColor:'#FF9A3C'},
+      {id:3, kind:'Track', title:'untitled_final_v7', user:'bass_daemon', meta:'Dubstep · 140 BPM · 4:10', flag:'Copyright: check sample', flagColor:'#FF5C93'},
+      {id:4, kind:'Comment', title:'"link in my bio for free samples"', user:'promo_bot_x', meta:'on "First Light"', flag:'Spam likely', flagColor:'#FF5C93'}
+    ]
+  };
+  go(v){ this.setState({view:v, toast:null}); try{window.scrollTo(0,0)}catch(e){} }
+  setContentTab(t){ this.setState({contentTab:t}); }
+  selectCourse(i){ this.setState({course:i}); }
+  setUserQuery(e){ this.setState({userQuery:e.target.value}); }
+  _toast(msg){ this.setState({toast:msg}); clearTimeout(this._tt); this._tt=setTimeout(()=>this.setState({toast:null}),2400); }
+  _resolveQueue(id, msg){ this.setState(s=>({ queue:s.queue.filter(q=>q.id!==id) })); this._toast(msg); }
+  _resolveMod(id, msg){ this.setState(s=>({ modQueue:s.modQueue.filter(q=>q.id!==id) })); this._toast(msg); }
+
+  renderVals(){
+    const v = this.state.view;
+    const navSrc = [
+      { label:'OVERVIEW', items:[ {id:'dashboard',label:'Dashboard',icon:'space_dashboard'}, {id:'analytics',label:'Analytics',icon:'monitoring'} ] },
+      { label:'CONTENT', items:[ {id:'curriculum',label:'Curriculum',icon:'school'}, {id:'content',label:'Content Engine',icon:'sync',badge:String(this.state.queue.length)}, {id:'tutor',label:'AI Tutor',icon:'auto_awesome'} ] },
+      { label:'PEOPLE', items:[ {id:'users',label:'Users',icon:'group'}, {id:'subs',label:'Subscriptions',icon:'credit_card'}, {id:'moderation',label:'Moderation',icon:'gavel',badge:String(this.state.modQueue.length)} ] }
+    ];
+    const navGroups = navSrc.map(g => ({ label:g.label, items: g.items.map(it => ({
+      label:it.label, icon:it.icon, badge:it.badge||null, onClick:()=>this.go(it.id),
+      style:`display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:11px;border:none;cursor:pointer;font-family:'Hanken Grotesk';font-weight:600;font-size:14px;text-align:start;transition:all .14s;`+(v===it.id?`background:rgba(203,242,78,0.12);color:#CBF24E;`:`background:transparent;color:#9aa0ad;`),
+      badgeStyle:`margin-inline-start:auto;font-family:'Space Mono';font-size:10px;font-weight:700;min-width:20px;text-align:center;padding:2px 6px;border-radius:6px;`+(v===it.id?`background:#CBF24E;color:#0A0B10;`:`background:rgba(255,255,255,0.08);color:#9aa0ad;`)
+    })) }));
+    const meta = { dashboard:{t:'Dashboard',s:'Platform health at a glance'}, analytics:{t:'Analytics',s:'Retention, funnel & engagement'}, curriculum:{t:'Curriculum',s:'Courses, modules & lessons'}, content:{t:'Content Engine',s:'Human-in-the-loop knowledge refresh'}, tutor:{t:'AI Tutor',s:'Knowledge base & behaviour'}, users:{t:'Users',s:'Accounts & progress'}, subs:{t:'Subscriptions',s:'Revenue & plans'}, moderation:{t:'Moderation',s:'Community review queue'} };
+
+    const kpiSrc = [
+      {label:'Daily active users', value:'52.7K', delta:'+4.2%', good:true, icon:'bolt', color:'#CBF24E'},
+      {label:'Monthly active', value:'133K', delta:'+6.1%', good:true, icon:'group', color:'#4FE3E0'},
+      {label:'Paid subscribers', value:'12.2K', delta:'+3.4%', good:true, icon:'workspace_premium', color:'#8B7CFF'},
+      {label:'MRR', value:'$164K', delta:'+5.8%', good:true, icon:'payments', color:'#CBF24E'},
+      {label:'Wk-1 activation', value:'43%', delta:'+1.9%', good:true, icon:'rocket_launch', color:'#FF9A3C'},
+      {label:'Monthly churn', value:'3.1%', delta:'-0.4%', good:true, icon:'trending_down', color:'#FF5C93'}
+    ];
+    const kpis = kpiSrc.map(k => ({ label:k.label, value:k.value, delta:k.delta, icon:k.icon,
+      deltaColor: k.good?'#CBF24E':'#FF5C93', arrow: k.delta.charAt(0)==='-'?'arrow_downward':'arrow_upward',
+      iconWrap:`width:38px;height:38px;border-radius:11px;background:${k.color}22;display:flex;align-items:center;justify-content:center;color:${k.color}` }));
+    const chartBars = [40,52,48,63,58,71,66,80,74,88,84,97].map((h,i)=>({ style:`flex:1;height:${h}%;background:${i>=10?'#CBF24E':'rgba(203,242,78,0.45)'};border-radius:4px 4px 0 0;transition:height .3s;` }));
+    const funnelSrc = [ {label:'Signed up', pct:100, value:'128K', color:'#4FE3E0'}, {label:'First win (week 1)', pct:43, value:'55K', color:'#CBF24E'}, {label:'Reached lesson 10', pct:24, value:'31K', color:'#8B7CFF'}, {label:'Upgraded to Pro', pct:9.5, value:'12.2K', color:'#FF9A3C'} ];
+    const funnel = funnelSrc.map(f => ({ label:f.label, value:f.value, barStyle:`height:100%;width:${f.pct}%;background:${f.color};border-radius:100px` }));
+    const actSrc = [
+      {icon:'workspace_premium', text:'nova_beats upgraded to Pro (annual)', time:'2m', color:'#CBF24E'},
+      {icon:'local_fire_department', text:'bass_daemon hit a 112-day streak', time:'14m', color:'#FF9A3C'},
+      {icon:'graphic_eq', text:'42 tracks submitted for AI feedback today', time:'38m', color:'#4FE3E0'},
+      {icon:'school', text:'"Sidechain like a pro" lesson published', time:'1h', color:'#8B7CFF'},
+      {icon:'flag', text:'2 comments flagged for moderation', time:'2h', color:'#FF5C93'}
+    ];
+    const activity = actSrc.map(a => ({ icon:a.icon, text:a.text, time:a.time, iconWrap:`flex-shrink:0;width:32px;height:32px;border-radius:9px;background:${a.color}22;display:flex;align-items:center;justify-content:center;color:${a.color}` }));
+    const queuePreview = this.state.queue.slice(0,3).map(q => ({ title:q.title, type:q.type, conf:q.conf, dotStyle:`width:9px;height:9px;border-radius:50%;flex-shrink:0;background:${q.typeColor};box-shadow:0 0 8px ${q.typeColor}` }));
+
+    // ---- content engine ----
+    const pipeline = [ {n:'01',label:'Ingest',icon:'upload_file'},{n:'02',label:'Chunk + embed',icon:'grain'},{n:'03',label:'Diff vs KB',icon:'difference'},{n:'04',label:'Classify',icon:'category'},{n:'05',label:'Human review',icon:'how_to_reg'},{n:'06',label:'Publish',icon:'publish'} ];
+    const queue = this.state.queue.map(q => ({
+      title:q.title, type:q.type, source:q.source, date:q.date, conf:q.conf, added:q.added, removed:q.removed, hasAdded:q.added.length>0, hasRemoved:q.removed.length>0,
+      typeStyle:`font-family:'Space Mono';font-size:10px;font-weight:700;letter-spacing:0.04em;padding:4px 9px;border-radius:6px;background:${q.typeColor}22;color:${q.typeColor}`,
+      confBar:`height:100%;width:${q.conf}%;background:${q.conf>=80?'#CBF24E':(q.conf>=65?'#FF9A3C':'#FF5C93')};border-radius:100px`,
+      approve:()=>this._resolveQueue(q.id,'Change published to knowledge base'), reject:()=>this._resolveQueue(q.id,'Change rejected')
+    }));
+    const contentTabs = [['queue','Review queue'],['sources','Sources'],['releases','Releases']].map(([id,label])=>({ label, onClick:()=>this.setContentTab(id), style:`font-family:'Hanken Grotesk';font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:10px;border:none;cursor:pointer;transition:all .12s;`+(this.state.contentTab===id?`background:#171922;color:#F4F5F7;`:`background:transparent;color:#8a8f9c;`) }));
+    const kbSources = [ {name:'Ableton changelog', type:'Firecrawl · daily', last:'2h ago', ok:true},{name:'Suno changelog', type:'Firecrawl · daily', last:'2h ago', ok:true},{name:'iZotope blog', type:'Firecrawl · weekly', last:'3d ago', ok:true},{name:'Manual uploads', type:'Admin', last:'Jun 28', ok:false} ].map(sc=>({ name:sc.name, type:sc.type, last:sc.last, statusStyle:`display:inline-flex;align-items:center;gap:6px;font-family:'Space Mono';font-size:11px;color:${sc.ok?'#CBF24E':'#6b6f7d'}`, dot:`width:7px;height:7px;border-radius:50%;background:${sc.ok?'#CBF24E':'#5a5e6b'}` }));
+    const releases = [ {ver:'KB v14', date:'Jul 2, 2026', changes:'12 added · 3 revised · 1 removed', by:'Maya'},{ver:'KB v13', date:'Jun 25, 2026', changes:'8 added · 5 revised', by:'auto + Maya'},{ver:'KB v12', date:'Jun 18, 2026', changes:'21 added · 2 removed', by:'Maya'} ];
+
+    // ---- curriculum ----
+    const courseSrc = [
+      {name:'Music Foundations', lessons:12, drafts:0, status:'Published', color:'#CBF24E', icon:'piano'},
+      {name:'Beats & Rhythm', lessons:14, drafts:1, status:'Published', color:'#8B7CFF', icon:'grid_view'},
+      {name:'Melody & Harmony', lessons:13, drafts:0, status:'Published', color:'#4FE3E0', icon:'music_note'},
+      {name:'Sound Design', lessons:16, drafts:2, status:'Published', color:'#FF5C93', icon:'tune'},
+      {name:'Arrangement', lessons:11, drafts:0, status:'Published', color:'#FF9A3C', icon:'architecture'},
+      {name:'Mixing', lessons:15, drafts:3, status:'Published', color:'#CBF24E', icon:'equalizer'},
+      {name:'Mastering', lessons:9, drafts:0, status:'Published', color:'#8B7CFF', icon:'campaign'},
+      {name:'Produce with AI', lessons:7, drafts:4, status:'Draft', color:'#8B7CFF', icon:'auto_awesome'}
+    ];
+    const courses = courseSrc.map((c,i)=>({ name:c.name, lessons:c.lessons+' lessons', drafts:c.drafts, icon:c.icon,
+      onClick:()=>this.selectCourse(i),
+      rowStyle:`display:flex;align-items:center;gap:12px;width:100%;padding:12px;border-radius:12px;border:1px solid ${i===this.state.course?'rgba(203,242,78,0.32)':'rgba(255,255,255,0.06)'};background:${i===this.state.course?'rgba(203,242,78,0.07)':'#0c0d13'};cursor:pointer;text-align:start;transition:all .12s;`,
+      iconWrap:`width:34px;height:34px;border-radius:9px;flex-shrink:0;background:${c.color}22;display:flex;align-items:center;justify-content:center;font-family:'Material Symbols Rounded';font-size:19px;color:${c.color}`,
+      statusStyle:`font-family:'Space Mono';font-size:9px;font-weight:700;padding:3px 6px;border-radius:5px;`+(c.status==='Published'?`background:rgba(203,242,78,0.14);color:#CBF24E;`:`background:rgba(255,154,60,0.14);color:#FF9A3C;`), status:c.status
+    }));
+    const curCourse = courseSrc[this.state.course];
+    const moduleSrc = [
+      {name:'Module 1 · Getting started', lessons:[ {t:'Meet the piano roll', kind:'Interactive', st:'Published'},{t:'The 12 notes', kind:'Interactive', st:'Published'},{t:'Build a scale', kind:'Interactive', st:'Published'},{t:'Checkpoint quiz', kind:'Quiz', st:'Published'} ]},
+      {name:'Module 2 · Going deeper', lessons:[ {t:'Major vs minor', kind:'Interactive', st:'Published'},{t:'Your first melody', kind:'Interactive', st:'Draft'},{t:'Reading the grid', kind:'Video', st:'Published'} ]}
+    ];
+    const kindColor = { Interactive:'#CBF24E', Quiz:'#8B7CFF', Video:'#4FE3E0' };
+    const modules = moduleSrc.map(m=>({ name:m.name, lessons:m.lessons.map(l=>({ t:l.t, kind:l.kind, st:l.st,
+      kindStyle:`font-family:'Space Mono';font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:5px;background:${kindColor[l.kind]}22;color:${kindColor[l.kind]}`,
+      stStyle:`font-family:'Space Mono';font-size:10px;color:${l.st==='Published'?'#6b6f7d':'#FF9A3C'}` })) }));
+
+    // ---- users ----
+    const userSrc = [
+      {name:'Nova Rivera', handle:'nova_beats', plan:'Pro', streak:47, level:12, status:'Active', joined:'Jan 2026', color:'#8B7CFF'},
+      {name:'Kojo Rhodes', handle:'k_rhodes', plan:'Pro', streak:31, level:10, status:'Active', joined:'Feb 2026', color:'#4FE3E0'},
+      {name:'Olivia Chen', handle:'lo_fi_liv', plan:'Free', streak:8, level:5, status:'Active', joined:'Mar 2026', color:'#CBF24E'},
+      {name:'Marco Díaz', handle:'bass_daemon', plan:'Lifetime', streak:112, level:20, status:'Active', joined:'Jan 2026', color:'#FF5C93'},
+      {name:'Sara Kaur', handle:'sara_synths', plan:'Pro', streak:19, level:8, status:'Active', joined:'Apr 2026', color:'#FF9A3C'},
+      {name:'Tom Becker', handle:'tb_techno', plan:'Free', streak:0, level:2, status:'Dormant', joined:'May 2026', color:'#8B7CFF'},
+      {name:'Amina Sow', handle:'amina_wav', plan:'Pro', streak:63, level:14, status:'Active', joined:'Feb 2026', color:'#4FE3E0'},
+      {name:'Leo Marín', handle:'leo_drums', plan:'Free', streak:4, level:3, status:'Active', joined:'Jun 2026', color:'#CBF24E'}
+    ];
+    const uq = this.state.userQuery.toLowerCase();
+    const users = userSrc.filter(u => !uq || u.name.toLowerCase().includes(uq) || u.handle.toLowerCase().includes(uq)).map(u=>({
+      name:u.name, handle:'@'+u.handle, streak:u.streak, level:'Lv '+u.level, plan:u.plan, status:u.status, joined:u.joined, initial:u.name.charAt(0),
+      avatarStyle:`width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,${u.color},#4FE3E0);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:13px;color:#0A0B10`,
+      planStyle:`font-family:'Space Mono';font-size:10px;font-weight:700;padding:4px 9px;border-radius:6px;`+(u.plan==='Pro'?`background:rgba(203,242,78,0.14);color:#CBF24E;`:(u.plan==='Lifetime'?`background:rgba(139,124,255,0.16);color:#c4b9ff;`:`background:rgba(255,255,255,0.06);color:#9aa0ad;`)),
+      statusStyle:`display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:${u.status==='Active'?'#c8ccd6':'#6b6f7d'}`,
+      dotStyle:`width:7px;height:7px;border-radius:50%;background:${u.status==='Active'?'#CBF24E':'#5a5e6b'}`
+    }));
+
+    // ---- subscriptions ----
+    const plans = [ {name:'Pro', count:'11,380', sub:'monthly + annual', pct:93, color:'#CBF24E'},{name:'Lifetime', count:'820', sub:'one-time', pct:7, color:'#8B7CFF'} ].map(p=>({ name:p.name, count:p.count, sub:p.sub, barStyle:`height:8px;width:${p.pct}%;background:${p.color};border-radius:100px`, dotColor:p.color }));
+    const transactions = [ {user:'nova_beats', plan:'Pro · annual', amt:'+$144', time:'2m', neg:false},{user:'sara_synths', plan:'Pro · monthly', amt:'+$15', time:'26m', neg:false},{user:'bass_daemon', plan:'Lifetime', amt:'+$249', time:'1h', neg:false},{user:'amina_wav', plan:'Pro · annual', amt:'+$144', time:'3h', neg:false},{user:'tb_techno', plan:'Refund · Pro', amt:'-$15', time:'5h', neg:true} ].map(x=>({ user:'@'+x.user, plan:x.plan, amt:x.amt, time:x.time, amtColor:x.neg?'#FF5C93':'#CBF24E' }));
+
+    // ---- AI tutor ----
+    const tutorKB = [ {name:'Production KB v14', items:'1,284 facts', ok:true},{name:'Genre conventions', items:'112 entries', ok:true},{name:'DAW & plugin index', items:'340 entries', ok:true},{name:'AI-tools changelog', items:'auto-synced', ok:false} ].map(k=>({ name:k.name, items:k.items, statusStyle:`display:inline-flex;align-items:center;gap:6px;font-family:'Space Mono';font-size:11px;color:${k.ok?'#CBF24E':'#FF9A3C'}`, dot:`width:7px;height:7px;border-radius:50%;background:${k.ok?'#CBF24E':'#FF9A3C'}`, status:k.ok?'Live':'Syncing' }));
+
+    // ---- moderation ----
+    const modQueue = this.state.modQueue.map(m=>({ kind:m.kind, title:m.title, user:'@'+m.user, meta:m.meta, flag:m.flag,
+      kindStyle:`font-family:'Space Mono';font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;background:${m.kind==='Track'?'rgba(79,227,224,0.14)':'rgba(139,124,255,0.14)'};color:${m.kind==='Track'?'#4FE3E0':'#c4b9ff'}`,
+      flagStyle:`font-family:'Space Mono';font-size:10.5px;color:${m.flagColor}`,
+      approve:()=>this._resolveMod(m.id,'Approved & published'), remove:()=>this._resolveMod(m.id,'Removed') }));
+
+    // ---- analytics ----
+    const retention = [100,66,52,44,40,37,35,34].map((h,i)=>({ style:`flex:1;height:${h}%;background:#4FE3E0;opacity:${(1-i*0.07).toFixed(2)};border-radius:5px 5px 0 0`, label:['D0','D1','D3','D7','D14','D30','D60','D90'][i] }));
+    const genreSplit = [ {name:'House', pct:34, color:'#CBF24E'},{name:'Techno', pct:22, color:'#4FE3E0'},{name:'Melodic', pct:16, color:'#8B7CFF'},{name:'Dubstep', pct:12, color:'#FF5C93'},{name:'DnB', pct:9, color:'#FF9A3C'},{name:'Trap', pct:7, color:'#c4b9ff'} ].map(g=>({ name:g.name, pct:g.pct+'%', barStyle:`height:8px;width:${g.pct*2.6}%;background:${g.color};border-radius:100px` }));
+    const dauTrend = [58,62,60,66,64,70,68,74,72,78,80,84,82,88].map((h,i)=>({ style:`flex:1;height:${h}%;background:${i===13?'#CBF24E':'rgba(203,242,78,0.4)'};border-radius:3px 3px 0 0` }));
+
+    return {
+      isDashboard:v==='dashboard', isAnalytics:v==='analytics', isCurriculum:v==='curriculum', isContent:v==='content', isTutor:v==='tutor', isUsers:v==='users', isSubs:v==='subs', isModeration:v==='moderation',
+      navGroups, viewTitle:meta[v].t, viewSub:meta[v].s,
+      kpis, chartBars, funnel, activity, queuePreview,
+      goContent:()=>this.go('content'),
+      pipeline, queue, contentTabs, kbSources, releases,
+      isQueueTab:this.state.contentTab==='queue', isSourcesTab:this.state.contentTab==='sources', isReleasesTab:this.state.contentTab==='releases', queueEmpty:this.state.queue.length===0,
+      courses, curCourseName:curCourse.name, curCourseLessons:curCourse.lessons+' lessons · '+curCourse.drafts+' drafts', modules,
+      users, userQuery:this.state.userQuery, setUserQuery:(e)=>this.setUserQuery(e), userCount:users.length,
+      plans, transactions,
+      tutorKB,
+      modQueue, modEmpty:this.state.modQueue.length===0,
+      retention, genreSplit, dauTrend,
+      toast:this.state.toast
+    };
+  }
+}
+</script>
+</body>
+</html>
