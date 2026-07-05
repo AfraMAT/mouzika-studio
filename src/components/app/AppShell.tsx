@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useI18n } from '@/lib/i18n';
@@ -35,6 +35,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { t } = useI18n();
   const { state, level, hydrated } = useProgress();
   const [moreOpen, setMoreOpen] = useState(false);
+
+  // Close the mobile "More" menu on outside tap and on navigation. (A fixed
+  // overlay can't be used for outside-tap: the header's backdrop-filter makes it
+  // the containing block for position:fixed children, confining it to the header.)
+  useEffect(() => {
+    if (!moreOpen) return;
+    const onDown = (e: Event) => {
+      const el = e.target as HTMLElement | null;
+      if (!el || !el.closest('[data-more-menu]')) setMoreOpen(false);
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  }, [moreOpen]);
+
+  useEffect(() => {
+    setMoreOpen(false);
+  }, [pathname]);
 
   return (
     <div className="dotted-bg" style={{ minHeight: '100vh', background: '#0a0b10', color: '#F4F5F7' }}>
@@ -141,6 +158,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <LanguageSwitch compact />
           <button
             type="button"
+            data-more-menu
             onClick={() => setMoreOpen((o) => !o)}
             aria-label={t.rail.more}
             aria-expanded={moreOpen}
@@ -162,13 +180,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
 
         {moreOpen && (
-          <>
             <div
-              onClick={() => setMoreOpen(false)}
-              aria-hidden
-              style={{ position: 'fixed', inset: 0, zIndex: 250 }}
-            />
-            <div
+              data-more-menu
               style={{
                 position: 'absolute',
                 top: '100%',
@@ -210,7 +223,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 );
               })}
             </div>
-          </>
         )}
       </header>
 

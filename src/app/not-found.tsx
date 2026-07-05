@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useI18n } from '@/lib/i18n';
 import { EqBars } from '@/components/ui/EqLogo';
 import { Icon } from '@/components/ui/Icon';
@@ -34,7 +33,7 @@ export default function NotFound() {
       </div>
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, margin: 0 }}>{nf.title}</h1>
       <p style={{ fontSize: 15, color: '#9aa0ad', maxWidth: 420, lineHeight: 1.6, margin: 0 }}>{nf.message}</p>
-      <Link
+      <a
         href="/learn"
         style={{
           display: 'inline-flex',
@@ -52,7 +51,7 @@ export default function NotFound() {
         }}
       >
         <Icon name="arrow_back" size={19} /> {nf.home}
-      </Link>
+      </a>
     </div>
   );
 }
