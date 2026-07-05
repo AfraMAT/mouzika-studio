@@ -41,3 +41,4 @@ yarn-error.log*
 # playwright MCP scratch
 .playwright-mcp/
 live-*.jpeg
+*-subdomain.jpeg
