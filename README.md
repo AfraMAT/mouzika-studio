@@ -51,8 +51,9 @@ interactive approve/reject review queue.
   (simplified BS.1770), true peak, stereo width (L/R correlation), crest factor,
   and a 3-band tonal balance — then scores it and writes plain-English fixes.
 - **Progress** (XP, streaks, spaced-repetition schedule, completed lessons,
-  saved beats, likes) persists in `localStorage` behind an interface that maps
-  1:1 to the included Supabase schema.
+  saved beats, likes) persists in `localStorage`, and — when Supabase is
+  configured and you sign in — syncs to Postgres so it follows you across
+  devices (offline-first, with a conflict-free merge on sign-in).
 
 ---
 
@@ -70,9 +71,12 @@ Copy `.env.example` → `.env.local` to enable cloud/AI features:
 
 - **`ANTHROPIC_API_KEY`** — makes `/api/tutor` answer via the Claude API.
   Without it, the tutor uses a solid rule-based fallback (still fully usable).
-- **Supabase keys** — promote the localStorage store to a real multi-tenant
-  backend. See [`supabase/schema.md`](./supabase/schema.md) and
-  [`supabase/migrations/0001_init.sql`](./supabase/migrations/0001_init.sql).
+- **Supabase keys** (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
+  — enable accounts and cross-device progress sync. The **Account** panel on
+  `/profile` appears once configured (email/password sign-in). Apply the
+  [`supabase/migrations/*`](./supabase/migrations) then read
+  [`supabase/schema.md`](./supabase/schema.md). The anon key is public and
+  guarded by Row-Level Security; keep the service-role key server-only.
 - **Stripe keys** — wire up the paid plans.
 
 ---
@@ -80,15 +84,16 @@ Copy `.env.example` → `.env.local` to enable cloud/AI features:
 ## 🧪 Testing
 
 ```bash
-npm run test         # Vitest unit tests (theory, SRS, streaks, feedback, i18n, tutor)
+npm run test         # Vitest unit tests (theory, SRS, streaks, feedback, i18n, tutor, cloud sync)
 npm run test:e2e     # Playwright smoke suite (needs: npm run test:e2e:install once)
 npm run typecheck    # tsc --noEmit
 npm run build        # production build
 ```
 
-- **51 unit tests** cover the pure logic: music theory, SuperMemo-2 spaced
-  repetition, streak math, LUFS/mix-feedback scoring, tutor routing, and
-  **tri-lingual dictionary shape parity** (FR/AR structurally match EN).
+- **70 unit tests** cover the pure logic: music theory, SuperMemo-2 spaced
+  repetition, streak math, LUFS/mix-feedback scoring, tutor routing, the
+  conflict-free cloud-sync merge + shared-device guard, and **tri-lingual
+  dictionary shape parity** (FR/AR structurally match EN).
 - **7 e2e tests** cover the onboarding flow, Web-Audio boot, drill scoring,
   tutor fallback, RTL language switching, and every key route returning 200.
 
@@ -111,9 +116,11 @@ src/
     widgets/             # every interactive Tone.js widget
   lib/
     audio/               # engine (singleton) · mixer · lufs · analyze · feedback
+    auth/                # AuthProvider — optional Supabase email/password auth
     content/             # curriculum · codex · community data
     i18n/                # EN/FR/AR dictionaries + provider (+ RTL)
-    store/               # progress provider · srs · streak (localStorage today)
+    store/               # progress provider · srs · streak · cloud (Supabase sync)
+    supabase/            # env-gated browser client + generated types
     theory.ts            # music-theory primitives (unit tested)
 supabase/                # migrations · seed · schema docs
 tests/  tests-e2e/       # Vitest + Playwright

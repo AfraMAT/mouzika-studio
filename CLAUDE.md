@@ -58,9 +58,19 @@ The Playwright config reuses a dev server on :3000 if one is already running.
 - `/api/tutor` calls Anthropic when `ANTHROPIC_API_KEY` is set, else returns
   `{reply:null}` and the client falls back to `cannedReply` (`src/lib/tutor.ts`).
   Shared canned copy lives in the dictionaries (`t.canned`).
-- Supabase is optional: schema in `supabase/migrations/0001_init.sql` (RLS on all
-  user tables), seed in `supabase/seed.sql`, integration notes in
-  `supabase/schema.md`. The store interface is designed to be swapped to it.
+- Supabase is optional and **env-gated** (`NEXT_PUBLIC_SUPABASE_URL` /
+  `NEXT_PUBLIC_SUPABASE_ANON_KEY`): with them unset the app is the offline
+  localStorage build unchanged. Migrations `0001`–`0004` + `seed.sql` are applied
+  to the live `mouzika-studio` project; notes in `supabase/schema.md`.
+  - Browser client: `src/lib/supabase/client.ts` (`getSupabaseClient()` returns
+    `null` when unconfigured or during SSR — never throws). Generated types in
+    `src/lib/supabase/types.ts` (regenerate after schema changes).
+  - Auth: `src/lib/auth/AuthProvider.tsx` (`useAuth()`), email/password; the
+    `AccountPanel` on `/profile` only renders when configured.
+  - Cloud sync: `src/lib/store/cloud.ts` (pure `mergeProgress` / `resolveSync`,
+    unit-tested) mirrors the whole `ProgressState` to the `user_state` table when
+    signed in. Keep the offline path and the `hydrated` pattern intact.
+  - Never put the service-role key in client code / `NEXT_PUBLIC_*`.
 
 ## Gotchas
 - **Tailwind v4 version skew** caused a `Missing field 'negated'` build crash;

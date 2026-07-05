@@ -6,6 +6,7 @@ import { ACHIEVEMENTS } from '@/lib/content/curriculum';
 import { useI18n } from '@/lib/i18n';
 import { useProgress } from '@/lib/store/progress';
 import { Icon } from '@/components/ui/Icon';
+import { AccountPanel } from '@/components/app/AccountPanel';
 
 const ART_FALLBACK = 'linear-gradient(135deg,#222,#151726)';
 const GENRE_CHIPS = ['House', 'Melodic Techno', 'Deep House'];
@@ -42,6 +43,8 @@ export default function ProfilePage() {
 
   return (
     <div style={{ maxWidth: 860, margin: '0 auto', padding: '28px 20px 60px' }}>
+      <AccountPanel />
+
       {/* HEADER */}
       <div
         style={{

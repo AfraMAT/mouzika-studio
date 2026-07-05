@@ -10,6 +10,17 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { newSrsItem, review as srsReview, outcomeToQuality, dueItems, type SrsItem } from './srs';
 import { dayKey, touchStreak, levelForXp } from './streak';
+import { useAuth } from '@/lib/auth/AuthProvider';
+import { getSupabaseClient } from '@/lib/supabase/client';
+import { isSupabaseConfigured } from '@/lib/supabase/config';
+import {
+  mergeProgress,
+  pullRemoteState,
+  pushRemoteState,
+  resolveSync,
+  readCloudOwner,
+  writeCloudOwner,
+} from './cloud';
 
 export interface OnboardingAnswers {
   goal: string | null;
@@ -109,6 +120,19 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
   const skipPersist = useRef(true);
 
+  // Cloud sync (optional): active only when Supabase is configured and a user is
+  // signed in. `stateRef` gives the async sign-in handler the latest local state
+  // without re-subscribing; the other refs coordinate pull/push without renders.
+  const { user } = useAuth();
+  const stateRef = useRef(state);
+  stateRef.current = state;
+  const cloudUserId = useRef<string | null>(null);
+  const pushTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Gate pushes on a successful initial pull so a failed read never clobbers the
+  // cloud. It's state (not a ref) so flipping it re-runs the push effect — edits
+  // made during the reconcile window still get flushed once sync is ready.
+  const [cloudReady, setCloudReady] = useState(false);
+
   // hydrate from storage once on the client
   useEffect(() => {
     setState(load());
@@ -128,6 +152,72 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       /* ignore quota errors */
     }
   }, [state, hydrated]);
+
+  // On sign-in: reconcile local state with the cloud. resolveSync guards against
+  // cross-account bleed on shared devices — local is only merged/uploaded when it
+  // belongs to this user (or nobody yet); otherwise the account's own remote wins.
+  useEffect(() => {
+    if (!isSupabaseConfigured()) return;
+    const supabase = getSupabaseClient();
+    if (!supabase) return;
+    // Wait for localStorage hydration first, so stateRef holds the user's real
+    // local state — never the seeded demo default — before we merge/push it up.
+    if (!hydrated) return;
+    const uid = user?.id ?? null;
+    if (uid === cloudUserId.current) return;
+    cloudUserId.current = uid;
+    setCloudReady(false);
+    if (!uid) return; // signed out — keep local state, stop syncing
+    let cancelled = false;
+    (async () => {
+      const pulled = await pullRemoteState(supabase, uid);
+      if (cancelled) return;
+      // Read failed — do not adopt or push, or we could clobber good remote data.
+      if (pulled.status === 'error') return;
+      const local = stateRef.current;
+      const remoteFull = pulled.state
+        ? ({ ...initialState(), ...(pulled.state as Partial<ProgressState>), version: CURRENT_VERSION })
+        : null;
+      const action = resolveSync(readCloudOwner(), uid, remoteFull !== null);
+      const next =
+        action === 'merge' && remoteFull
+          ? mergeProgress(local, remoteFull)
+          : action === 'adopt-remote' && remoteFull
+            ? remoteFull
+            : action === 'push-local'
+              ? local
+              : initialState(); // 'reset'
+      setState(next);
+      writeCloudOwner(uid);
+      try {
+        await pushRemoteState(supabase, uid, next);
+      } catch {
+        /* ignore transient network errors — the debounced push will retry */
+      }
+      if (!cancelled) setCloudReady(true);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [user, hydrated]);
+
+  // While signed in, debounce-push local changes up to the cloud. Gated on
+  // cloudReady (state) so a failed pull never overwrites the cloud, and so an
+  // edit made during the reconcile window is flushed once sync becomes ready.
+  useEffect(() => {
+    if (!hydrated || !cloudReady) return;
+    const uid = cloudUserId.current;
+    if (!uid) return;
+    const supabase = getSupabaseClient();
+    if (!supabase) return;
+    if (pushTimer.current) clearTimeout(pushTimer.current);
+    pushTimer.current = setTimeout(() => {
+      void pushRemoteState(supabase, uid, state);
+    }, 1200);
+    return () => {
+      if (pushTimer.current) clearTimeout(pushTimer.current);
+    };
+  }, [state, hydrated, cloudReady]);
 
   const touchToday = useCallback(() => {
     setState((s) => {
