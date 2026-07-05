@@ -69,7 +69,7 @@ export function ArrangementBuilder() {
     <PracticeShell title={t.arrange.title} subtitle={t.arrange.sub} backLabel={t.arrange.back}>
       {/* palette */}
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, letterSpacing: '0.1em', color: '#8a8f9c', marginBottom: 10 }}>{t.arrange.palette}</div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 8, marginBottom: 22 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', gap: 8, marginBottom: 22 }}>
         {t.arrange.secs.map((nm, i) => (
           <button
             key={nm}

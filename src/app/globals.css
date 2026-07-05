@@ -271,6 +271,31 @@ body {
   scrollbar-width: none;
 }
 
+/* Full-height chat panel (AI Tutor). On mobile it must fit between the sticky
+   app header (~63px) and the fixed bottom tab bar (~68px + safe area) so the
+   input never hides behind the nav; `dvh` tracks the mobile URL bar. On desktop
+   there is no header/nav, so it fills the viewport with a little breathing room. */
+.chat-viewport {
+  height: calc(100dvh - 136px - env(safe-area-inset-bottom));
+}
+@media (min-width: 1024px) {
+  .chat-viewport {
+    height: calc(100vh - 24px);
+  }
+}
+
+/* Lesson action bar (Skip / Continue). On mobile it sits just above the fixed
+   bottom tab bar so its buttons are never hidden behind it; on desktop there is
+   no tab bar, so it pins to the bottom edge. */
+.lesson-actionbar {
+  bottom: calc(70px + env(safe-area-inset-bottom));
+}
+@media (min-width: 1024px) {
+  .lesson-actionbar {
+    bottom: 0;
+  }
+}
+
 /* range inputs — themed lime sliders */
 input[type='range'].mz-range {
   -webkit-appearance: none;

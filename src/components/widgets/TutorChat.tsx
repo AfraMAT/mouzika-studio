@@ -54,7 +54,7 @@ export function TutorChat() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px)', maxWidth: 860, margin: '0 auto' }}>
+    <div className="chat-viewport" style={{ display: 'flex', flexDirection: 'column', maxWidth: 860, margin: '0 auto' }}>
       {/* header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '18px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

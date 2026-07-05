@@ -14,7 +14,7 @@ function panLabel(pan: number): string {
 }
 
 export function MixingDesk() {
-  const { t } = useI18n();
+  const { t, isRTL } = useI18n();
   const mixerRef = useRef<Mixer | null>(null);
   const barsRef = useRef<(HTMLDivElement | null)[]>([]);
   const rafRef = useRef<number | null>(null);
@@ -87,6 +87,7 @@ export function MixingDesk() {
         </button>
       </div>
 
+      <div style={{ position: 'relative' }}>
       <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 8 }} className="no-scrollbar">
         {channels.map((c, i) => {
           const isMaster = i === 4;
@@ -98,9 +99,9 @@ export function MixingDesk() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: 11,
-                width: 100,
+                width: 88,
                 flexShrink: 0,
-                padding: '16px 10px',
+                padding: '16px 8px',
                 borderRadius: 16,
                 background: isMaster ? 'rgba(203,242,78,0.05)' : '#141620',
                 border: `1px solid ${isMaster ? 'rgba(203,242,78,0.2)' : 'rgba(255,255,255,0.06)'}`,
@@ -156,6 +157,9 @@ export function MixingDesk() {
             </div>
           );
         })}
+      </div>
+        {/* fade hint that more channel strips scroll into view on narrow screens */}
+        <div aria-hidden style={{ position: 'absolute', insetBlock: 0, insetInlineEnd: 0, width: 24, pointerEvents: 'none', background: `linear-gradient(${isRTL ? 'to right' : 'to left'}, #0a0b10, rgba(10,11,16,0))` }} />
       </div>
 
       <p style={{ marginTop: 20, fontSize: 12.5, color: '#6b6f7d', lineHeight: 1.6 }}>{t.mixer.tip}</p>

@@ -23,16 +23,16 @@ export default function PricingPage() {
 
   return (
     <div className="dotted-bg" style={{ minHeight: '100vh', background: '#0a0b10', color: '#F4F5F7' }}>
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 28px' }}>
-        <Wordmark size={22} />
-        <Link href="/learn" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontWeight: 600, fontSize: 14, padding: '10px 18px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)', color: '#c8ccd6', textDecoration: 'none' }}>
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '16px clamp(14px, 4vw, 28px)' }}>
+        <Wordmark size={20} />
+        <Link href="/learn" style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: 7, fontWeight: 600, fontSize: 13.5, padding: '9px 14px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)', color: '#c8ccd6', textDecoration: 'none' }}>
           <Icon name={isRTL ? 'arrow_forward' : 'arrow_back'} size={18} /> {p.back}
         </Link>
       </header>
 
       <div style={{ maxWidth: 1080, margin: '0 auto', padding: '30px 22px 70px' }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 46, fontWeight: 700, letterSpacing: '-0.03em', margin: '0 0 12px' }}>{p.title}</h1>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(30px, 8vw, 46px)', fontWeight: 700, letterSpacing: '-0.03em', margin: '0 0 12px' }}>{p.title}</h1>
           <p style={{ fontSize: 17, color: '#9aa0ad', margin: '0 auto', maxWidth: 560, lineHeight: 1.5 }}>{p.sub}</p>
         </div>
 

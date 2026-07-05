@@ -48,7 +48,7 @@ export default function CodexEntryPage() {
         </span>
       </div>
 
-      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 26px' }}>{entry.title}</h1>
+      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(25px, 7vw, 32px)', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 26px' }}>{entry.title}</h1>
 
       <article>
         {entry.body.map((para, i) => (

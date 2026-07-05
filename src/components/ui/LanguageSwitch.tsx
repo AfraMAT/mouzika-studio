@@ -5,8 +5,8 @@ import { Icon } from './Icon';
 
 export function LanguageSwitch({ withIcon = false, compact = false }: { withIcon?: boolean; compact?: boolean }) {
   const { locale, setLocale } = useI18n();
-  const pad = compact ? '6px 9px' : '7px 10px';
-  const minW = compact ? 30 : 32;
+  const pad = compact ? '6px 7px' : '7px 10px';
+  const minW = compact ? 27 : 32;
   return (
     <div
       style={{

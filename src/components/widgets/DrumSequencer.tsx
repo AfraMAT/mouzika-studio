@@ -68,7 +68,7 @@ export function DrumSequencer({ tracks = TRACKS, onEdited }: { tracks?: DrumTrac
         background: '#141620',
         border: '1px solid rgba(255,255,255,0.06)',
         borderRadius: 20,
-        padding: 22,
+        padding: 'clamp(14px, 4vw, 22px)',
       }}
     >
       {/* controls */}
@@ -155,7 +155,7 @@ export function DrumSequencer({ tracks = TRACKS, onEdited }: { tracks?: DrumTrac
       </div>
 
       {/* beat numbers */}
-      <div style={{ display: 'flex', gap: 10, marginInlineStart: 62, marginBottom: 8 }}>
+      <div style={{ display: 'flex', gap: 6, marginInlineStart: 58, marginBottom: 8 }}>
         {[1, 2, 3, 4].map((n) => (
           <div key={n} style={{ flex: 1, display: 'flex', gap: 5 }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#5a5e6b' }}>{n}</span>
@@ -171,7 +171,7 @@ export function DrumSequencer({ tracks = TRACKS, onEdited }: { tracks?: DrumTrac
               onClick={() => engine.triggerDrum(track)}
               title={rowLabels[track]}
               style={{
-                width: 52,
+                width: 48,
                 flexShrink: 0,
                 display: 'flex',
                 alignItems: 'center',
@@ -187,9 +187,9 @@ export function DrumSequencer({ tracks = TRACKS, onEdited }: { tracks?: DrumTrac
               <span style={{ width: 9, height: 9, borderRadius: '50%', background: COLORS[track], flexShrink: 0 }} />
               <span style={{ overflow: 'hidden' }}>{rowLabels[track]}</span>
             </button>
-            <div style={{ display: 'flex', gap: 10, flex: 1 }}>
+            <div style={{ display: 'flex', gap: 6, flex: 1, minWidth: 0 }}>
               {[0, 1, 2, 3].map((g) => (
-                <div key={g} style={{ display: 'flex', gap: 5, flex: 1 }}>
+                <div key={g} style={{ display: 'flex', gap: 4, flex: 1, minWidth: 0 }}>
                   {pattern[track].slice(g * 4, g * 4 + 4).map((active, ci) => {
                     const i = g * 4 + ci;
                     const isStep = step === i;
@@ -201,6 +201,7 @@ export function DrumSequencer({ tracks = TRACKS, onEdited }: { tracks?: DrumTrac
                         aria-pressed={active}
                         style={{
                           flex: 1,
+                          minWidth: 0,
                           aspectRatio: '1',
                           minHeight: 26,
                           borderRadius: 7,

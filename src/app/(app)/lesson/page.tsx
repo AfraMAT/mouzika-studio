@@ -21,7 +21,7 @@ export default function LessonPage() {
   return (
     <div style={{ maxWidth: 760, margin: '0 auto', padding: '28px 20px 120px' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.06em', color: '#8B7CFF', marginBottom: 10 }}>{t.lesson.unit}</div>
-      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 34, fontWeight: 700, letterSpacing: '-0.02em', margin: '0 0 14px' }}>{t.lesson.title}</h1>
+      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 7vw, 34px)', fontWeight: 700, letterSpacing: '-0.02em', margin: '0 0 14px' }}>{t.lesson.title}</h1>
       <p style={{ fontSize: 16, color: '#c8ccd6', lineHeight: 1.65, margin: '0 0 26px' }}>
         {t.lesson.intro1}
         <b style={{ color: '#F4F5F7' }}>{t.lesson.introBold}</b>
@@ -47,13 +47,12 @@ export default function LessonPage() {
 
       {/* bottom bar */}
       <div
-        className="lg:ps-[92px]"
+        className="lg:ps-[92px] lesson-actionbar"
         style={{
           position: 'fixed',
-          bottom: 0,
           insetInline: 0,
           zIndex: 150,
-          paddingBlock: 'calc(14px) calc(14px + env(safe-area-inset-bottom))',
+          paddingBlock: 14,
           background: 'rgba(10,11,16,0.9)',
           backdropFilter: 'blur(14px)',
           borderTop: '1px solid rgba(255,255,255,0.07)',

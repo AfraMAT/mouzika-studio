@@ -83,10 +83,10 @@ export default function OnboardingPage() {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '10px 22px 40px', maxWidth: 620, width: '100%', margin: '0 auto' }}>
         {!ready && meta && stepDict ? (
           <div className="anim-rise" key={step}>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', margin: '0 0 6px' }}>{stepDict.title}</h1>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(25px, 7vw, 32px)', fontWeight: 700, letterSpacing: '-0.02em', margin: '0 0 6px' }}>{stepDict.title}</h1>
             <p style={{ fontSize: 15, color: '#9aa0ad', margin: '0 0 26px' }}>{stepDict.sub}</p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${meta.cols},1fr)`, gap: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: meta.cols === 1 ? '1fr' : 'repeat(auto-fit, minmax(230px, 1fr))', gap: 12 }}>
               {meta.opts.map((o, oi) => {
                 const active = selected === o.value;
                 const [label, desc] = stepDict.options[oi];
