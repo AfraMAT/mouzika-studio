@@ -13,10 +13,34 @@ const GENRE_CHIPS = ['House', 'Melodic Techno', 'Deep House'];
 
 export default function ProfilePage() {
   const { t } = useI18n();
-  const { state, hydrated } = useProgress();
+  const { state, hydrated, setName } = useProgress();
   const [activeTab, setActiveTab] = useState(0);
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState('');
+  const [shared, setShared] = useState(false);
 
   const p = t.profile;
+
+  const saveName = () => {
+    const v = draft.trim();
+    if (v) setName(v);
+    setEditing(false);
+  };
+
+  const shareProfile = async () => {
+    const url = typeof window !== 'undefined' ? window.location.href : 'https://app.mouzika.studio/profile';
+    try {
+      if (typeof navigator !== 'undefined' && navigator.share) {
+        await navigator.share({ title: 'Mouzika Studio', url });
+      } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+      }
+      setShared(true);
+      setTimeout(() => setShared(false), 2000);
+    } catch {
+      /* user cancelled the share sheet — no-op */
+    }
+  };
 
   const stats = [
     { val: '8', label: p.tracksN, color: '#CBF24E' },
@@ -74,18 +98,61 @@ export default function ProfilePage() {
         </div>
 
         <div style={{ flex: '1 1 320px', minWidth: 0 }}>
-          <h1
-            style={{
-              margin: 0,
-              fontFamily: 'var(--font-display)',
-              fontSize: 24,
-              fontWeight: 700,
-              color: '#F4F5F7',
-              lineHeight: 1.2,
-            }}
-          >
-            {`${state.name} Rivera`}
-          </h1>
+          {editing ? (
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              <input
+                autoFocus
+                value={draft}
+                onChange={(e) => setDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') saveName();
+                  if (e.key === 'Escape') setEditing(false);
+                }}
+                aria-label={p.edit}
+                maxLength={24}
+                style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  borderRadius: 10,
+                  color: '#F4F5F7',
+                  padding: '6px 12px',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 22,
+                  fontWeight: 700,
+                  width: 'min(240px, 58vw)',
+                }}
+              />
+              <button
+                type="button"
+                onClick={saveName}
+                aria-label={p.save}
+                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: 10, background: '#CBF24E', border: 'none', color: '#0A0B10', cursor: 'pointer' }}
+              >
+                <Icon name="check" size={20} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditing(false)}
+                aria-label={p.cancel}
+                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', color: '#c8ccd6', cursor: 'pointer' }}
+              >
+                <Icon name="close" size={20} />
+              </button>
+            </div>
+          ) : (
+            <h1
+              style={{
+                margin: 0,
+                fontFamily: 'var(--font-display)',
+                fontSize: 24,
+                fontWeight: 700,
+                color: '#F4F5F7',
+                lineHeight: 1.2,
+              }}
+            >
+              {`${state.name} Rivera`}
+            </h1>
+          )}
           <div style={{ fontSize: 13, color: '#8a8f9c', marginTop: 5 }}>
             {p.rankLabel}
             <span style={{ margin: '0 8px', opacity: 0.5 }}>•</span>
@@ -124,13 +191,13 @@ export default function ProfilePage() {
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 16 }}>
-            <button type="button" style={secondaryBtn}>
+            <button type="button" onClick={() => { setDraft(state.name); setEditing(true); }} style={secondaryBtn}>
               <Icon name="edit" size={18} />
               {p.edit}
             </button>
-            <button type="button" style={secondaryBtn}>
-              <Icon name="ios_share" size={18} />
-              {p.share}
+            <button type="button" onClick={shareProfile} style={secondaryBtn}>
+              <Icon name={shared ? 'check' : 'ios_share'} size={18} />
+              {shared ? p.shared : p.share}
             </button>
           </div>
         </div>

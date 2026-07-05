@@ -28,3 +28,12 @@ export const MOBILE_NAV: NavItem[] = [
   { href: '/tutor', icon: 'auto_awesome', key: 'tutor' },
   { href: '/profile', icon: 'account_circle', key: 'profile' },
 ];
+
+// Routes not in the bottom tab bar — surfaced via the mobile "More" menu so the
+// AI feedback tool, Codex, Discover and Leaderboard are reachable on phones.
+export const MOBILE_MORE_NAV: NavItem[] = [
+  { href: '/feedback', icon: 'graphic_eq', key: 'feedback' },
+  { href: '/codex', icon: 'menu_book', key: 'codex' },
+  { href: '/discover', icon: 'explore', key: 'discover' },
+  { href: '/leaderboard', icon: 'emoji_events', key: 'leaderboard' },
+];

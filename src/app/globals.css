@@ -307,6 +307,16 @@ input[type='range'].mz-range.cyan::-moz-range-thumb {
   background: #4fe3e0;
 }
 
+/* ---- keyboard focus visibility (WCAG 2.4.7 Focus Visible) ----
+   A single global rule so every keyboard-focusable control shows a ring.
+   !important overrides the few controls that set inline `outline:none`
+   (Codex/admin search inputs, Tutor textarea) and the .mz-range sliders. */
+:focus-visible {
+  outline: 2px solid #cbf24e !important;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

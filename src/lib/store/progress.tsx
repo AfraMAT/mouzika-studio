@@ -105,6 +105,7 @@ interface ProgressApi {
   dueCount: () => number;
   setOnboarding: (a: Partial<OnboardingAnswers>) => void;
   setPlan: (p: ProgressState['plan']) => void;
+  setName: (name: string) => void;
   saveBeat: (beat: Omit<SavedBeat, 'id' | 'createdAt'>) => void;
   deleteBeat: (id: string) => void;
   toggleLike: (id: string) => void;
@@ -294,10 +295,18 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
 
   const setPlan = useCallback((p: ProgressState['plan']) => setState((s) => ({ ...s, plan: p })), []);
 
+  const setName = useCallback((name: string) => setState((s) => ({ ...s, name })), []);
+
   const saveBeat = useCallback((beat: Omit<SavedBeat, 'id' | 'createdAt'>) => {
+    // Collision-proof id (never derived from array length, which reuses ids after
+    // a delete) and a real createdAt so the cloud merge can order/cap by recency.
+    const id =
+      typeof crypto !== 'undefined' && crypto.randomUUID
+        ? `beat-${crypto.randomUUID()}`
+        : `beat-${Date.now()}-${Math.random().toString(36).slice(2)}`;
     setState((s) => ({
       ...s,
-      savedBeats: [{ ...beat, id: `beat-${s.savedBeats.length + 1}-${s.savedBeats.length}`, createdAt: 0 }, ...s.savedBeats].slice(0, 24),
+      savedBeats: [{ ...beat, id, createdAt: Date.now() }, ...s.savedBeats].slice(0, 24),
     }));
   }, []);
 
@@ -328,6 +337,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       dueCount,
       setOnboarding,
       setPlan,
+      setName,
       saveBeat,
       deleteBeat,
       toggleLike,
@@ -335,7 +345,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
       reset,
       hydrated,
     }),
-    [state, addXp, completeLesson, isLessonDone, recordDrill, recordReview, dueCount, setOnboarding, setPlan, saveBeat, deleteBeat, toggleLike, touchToday, reset, hydrated]
+    [state, addXp, completeLesson, isLessonDone, recordDrill, recordReview, dueCount, setOnboarding, setPlan, setName, saveBeat, deleteBeat, toggleLike, touchToday, reset, hydrated]
   );
 
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>;

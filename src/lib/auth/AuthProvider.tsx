@@ -26,6 +26,7 @@ export interface AuthApi {
     email: string,
     password: string
   ) => Promise<{ error: string | null; needsConfirmation: boolean }>;
+  signInWithGoogle: () => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 }
 
@@ -78,6 +79,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error: null, needsConfirmation: !!data.user && !data.session };
   }, []);
 
+  const signInWithGoogle = useCallback<AuthApi['signInWithGoogle']>(async () => {
+    const supabase = getSupabaseClient();
+    if (!supabase) return { error: NOT_CONFIGURED };
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        // Bare origin === the Supabase Site URL, so it's always an allowed
+        // redirect; on app.mouzika.studio the root rewrites to /learn post-login.
+        redirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
+      },
+    });
+    return { error: error?.message ?? null };
+  }, []);
+
   const signOut = useCallback<AuthApi['signOut']>(async () => {
     const supabase = getSupabaseClient();
     if (supabase) await supabase.auth.signOut();
@@ -86,8 +101,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const api = useMemo<AuthApi>(
-    () => ({ configured, ready, user, session, signIn, signUp, signOut }),
-    [configured, ready, user, session, signIn, signUp, signOut]
+    () => ({ configured, ready, user, session, signIn, signUp, signInWithGoogle, signOut }),
+    [configured, ready, user, session, signIn, signUp, signInWithGoogle, signOut]
   );
 
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>;

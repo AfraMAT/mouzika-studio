@@ -3,7 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   eslint: {
-    // Lint is run separately; do not block production builds on it.
+    // ESLint is not configured for this project; static checking is done with
+    // `npm run typecheck` (tsc --noEmit). Don't block production builds on lint.
     ignoreDuringBuilds: true,
   },
   async headers() {

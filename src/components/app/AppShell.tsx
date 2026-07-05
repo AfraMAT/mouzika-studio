@@ -1,10 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useI18n } from '@/lib/i18n';
 import { useProgress } from '@/lib/store/progress';
-import { PRIMARY_NAV, SECONDARY_NAV, MOBILE_NAV } from '@/lib/nav';
+import { PRIMARY_NAV, SECONDARY_NAV, MOBILE_NAV, MOBILE_MORE_NAV } from '@/lib/nav';
 import { EqBars } from '@/components/ui/EqLogo';
 import { Icon } from '@/components/ui/Icon';
 import { LanguageSwitch } from '@/components/ui/LanguageSwitch';
@@ -33,6 +34,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { t } = useI18n();
   const { state, level, hydrated } = useProgress();
+  const [moreOpen, setMoreOpen] = useState(false);
 
   return (
     <div className="dotted-bg" style={{ minHeight: '100vh', background: '#0a0b10', color: '#F4F5F7' }}>
@@ -135,7 +137,81 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             mouzika<span style={{ color: '#CBF24E' }}>.studio</span>
           </span>
         </Link>
-        <LanguageSwitch compact />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <LanguageSwitch compact />
+          <button
+            type="button"
+            onClick={() => setMoreOpen((o) => !o)}
+            aria-label={t.rail.more}
+            aria-expanded={moreOpen}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 38,
+              height: 38,
+              borderRadius: 11,
+              background: moreOpen ? 'rgba(203,242,78,0.12)' : 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: moreOpen ? '#CBF24E' : '#c8ccd6',
+              cursor: 'pointer',
+            }}
+          >
+            <Icon name="grid_view" size={20} />
+          </button>
+        </div>
+
+        {moreOpen && (
+          <>
+            <div
+              onClick={() => setMoreOpen(false)}
+              aria-hidden
+              style={{ position: 'fixed', inset: 0, zIndex: 250 }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                top: '100%',
+                insetInlineEnd: 12,
+                marginTop: 8,
+                minWidth: 200,
+                background: '#141620',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 14,
+                padding: 8,
+                boxShadow: 'var(--shadow-pop)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+                zIndex: 300,
+              }}
+            >
+              {MOBILE_MORE_NAV.map((item) => {
+                const active = isActive(pathname, item.href);
+                return (
+                  <Link
+                    key={item.key}
+                    href={item.href}
+                    onClick={() => setMoreOpen(false)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 12,
+                      padding: '11px 12px',
+                      borderRadius: 10,
+                      textDecoration: 'none',
+                      background: active ? 'rgba(203,242,78,0.1)' : 'transparent',
+                      color: active ? '#CBF24E' : '#c8ccd6',
+                    }}
+                  >
+                    <Icon name={item.icon} size={20} fill={active} />
+                    <span style={{ fontSize: 14, fontWeight: 600 }}>{railLabel(t, item.key)}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </>
+        )}
       </header>
 
       {/* ---------- content ---------- */}

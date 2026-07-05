@@ -137,6 +137,8 @@ export function MixingDesk() {
               <div style={{ display: 'flex', gap: 6 }}>
                 <button
                   onClick={() => set(i, 'mute', !c.mute)}
+                  aria-label={`${names[i]} mute`}
+                  aria-pressed={c.mute}
                   style={{ ...btnBase, background: c.mute ? '#FF5C93' : 'rgba(255,255,255,0.05)', color: c.mute ? '#0A0B10' : '#9aa0ad', borderColor: c.mute ? '#FF5C93' : 'rgba(255,255,255,0.12)' }}
                 >
                   M
@@ -144,6 +146,8 @@ export function MixingDesk() {
                 <button
                   onClick={() => !isMaster && set(i, 'solo', !c.solo)}
                   disabled={isMaster}
+                  aria-label={`${names[i]} solo`}
+                  aria-pressed={c.solo}
                   style={{ ...btnBase, opacity: isMaster ? 0.25 : 1, pointerEvents: isMaster ? 'none' : 'auto', background: c.solo ? '#FF9A3C' : 'rgba(255,255,255,0.05)', color: c.solo ? '#0A0B10' : '#9aa0ad', borderColor: c.solo ? '#FF9A3C' : 'rgba(255,255,255,0.12)' }}
                 >
                   S

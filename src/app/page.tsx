@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useI18n } from '@/lib/i18n';
 import { Icon } from '@/components/ui/Icon';
 import { EqBars, Wordmark } from '@/components/ui/EqLogo';
@@ -32,12 +31,12 @@ export default function LandingPage() {
           <div className="hidden sm:block">
             <LanguageSwitch withIcon />
           </div>
-          <Link href="/learn" className="hidden sm:inline-flex" style={{ color: '#c8ccd6', textDecoration: 'none', fontSize: 14.5, fontWeight: 600 }}>
+          <a href="/learn" className="hidden sm:inline-flex" style={{ color: '#c8ccd6', textDecoration: 'none', fontSize: 14.5, fontWeight: 600 }}>
             {t.nav.login}
-          </Link>
-          <Link href="/onboarding" style={{ fontWeight: 700, fontSize: 14, padding: '10px 18px', borderRadius: 12, background: '#CBF24E', color: '#0A0B10', textDecoration: 'none', boxShadow: '0 3px 0 #93B81F' }}>
+          </a>
+          <a href="/onboarding" style={{ fontWeight: 700, fontSize: 14, padding: '10px 18px', borderRadius: 12, background: '#CBF24E', color: '#0A0B10', textDecoration: 'none', boxShadow: '0 3px 0 #93B81F' }}>
             {t.nav.start}
-          </Link>
+          </a>
         </div>
       </header>
 
@@ -53,12 +52,12 @@ export default function LandingPage() {
           </h1>
           <p style={{ fontSize: 18, color: '#A7ABB8', lineHeight: 1.6, margin: '0 0 30px', maxWidth: 600 }}>{t.hero.sub}</p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20 }}>
-            <Link href="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontWeight: 700, fontSize: 16, padding: '15px 26px', borderRadius: 14, background: '#CBF24E', color: '#0A0B10', textDecoration: 'none', boxShadow: '0 5px 0 #7f9f2b' }}>
+            <a href="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontWeight: 700, fontSize: 16, padding: '15px 26px', borderRadius: 14, background: '#CBF24E', color: '#0A0B10', textDecoration: 'none', boxShadow: '0 5px 0 #7f9f2b' }}>
               <Icon name="rocket_launch" size={20} /> {t.hero.cta1}
-            </Link>
-            <Link href="/lesson" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontWeight: 700, fontSize: 16, padding: '15px 26px', borderRadius: 14, border: '1px solid rgba(255,255,255,0.14)', background: 'rgba(255,255,255,0.04)', color: '#F4F5F7', textDecoration: 'none' }}>
+            </a>
+            <a href="/lesson" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontWeight: 700, fontSize: 16, padding: '15px 26px', borderRadius: 14, border: '1px solid rgba(255,255,255,0.14)', background: 'rgba(255,255,255,0.04)', color: '#F4F5F7', textDecoration: 'none' }}>
               <Icon name="play_circle" size={20} /> {t.hero.cta2}
-            </Link>
+            </a>
           </div>
           <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
             {[t.hero.tick1, t.hero.tick2, t.hero.tick3].map((tick) => (
@@ -151,9 +150,9 @@ export default function LandingPage() {
                 </li>
               ))}
             </ul>
-            <Link href="/lesson" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 15, padding: '13px 22px', borderRadius: 13, background: '#CBF24E', color: '#0A0B10', textDecoration: 'none', boxShadow: '0 4px 0 #93B81F' }}>
+            <a href="/lesson" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 15, padding: '13px 22px', borderRadius: 13, background: '#CBF24E', color: '#0A0B10', textDecoration: 'none', boxShadow: '0 4px 0 #93B81F' }}>
               {t.inter.cta} <Icon name="arrow_forward" size={18} />
-            </Link>
+            </a>
           </div>
           <div style={{ background: 'linear-gradient(160deg,#141620,#0d0e14)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 22, padding: 26, display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 90, justifyContent: 'center' }}>
@@ -226,9 +225,9 @@ export default function LandingPage() {
           {t.cta.t1} <span style={{ color: '#CBF24E' }}>{t.cta.t2}</span>
         </h2>
         <p style={{ fontSize: 17, color: '#A7ABB8', margin: '0 auto 28px', maxWidth: 480, lineHeight: 1.5 }}>{t.cta.para}</p>
-        <Link href="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontWeight: 700, fontSize: 17, padding: '16px 32px', borderRadius: 16, background: '#CBF24E', color: '#0A0B10', textDecoration: 'none', boxShadow: '0 5px 0 #7f9f2b' }}>
+        <a href="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontWeight: 700, fontSize: 17, padding: '16px 32px', borderRadius: 16, background: '#CBF24E', color: '#0A0B10', textDecoration: 'none', boxShadow: '0 5px 0 #7f9f2b' }}>
           <Icon name="rocket_launch" size={22} /> {t.cta.btn}
-        </Link>
+        </a>
       </section>
 
       {/* ---------------- footer ---------------- */}
@@ -238,19 +237,30 @@ export default function LandingPage() {
             <Wordmark size={20} />
             <p style={{ fontSize: 13.5, color: '#8a8f9c', lineHeight: 1.6, margin: '14px 0 0', maxWidth: 280 }}>{t.footer.tagline}</p>
           </div>
-          {[
-            { heading: t.footer.product, links: t.footer.productLinks },
-            { heading: t.footer.learn, links: t.footer.learnLinks },
-            { heading: t.footer.company, links: t.footer.companyLinks },
-          ].map((col) => (
+          {(
+            [
+              { heading: t.footer.product, links: t.footer.productLinks, hrefs: ['#curriculum', '#interactive', '#ai', '/pricing'] },
+              { heading: t.footer.learn, links: t.footer.learnLinks, hrefs: ['#curriculum', '#curriculum', '#curriculum', null] },
+              { heading: t.footer.company, links: t.footer.companyLinks, hrefs: [null, null, null, null] },
+            ] as { heading: string; links: string[]; hrefs: (string | null)[] }[]
+          ).map((col) => (
             <div key={col.heading}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, letterSpacing: '0.1em', color: '#6b6f7d', marginBottom: 14 }}>{col.heading}</div>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {col.links.map((l) => (
-                  <li key={l}>
-                    <span style={{ fontSize: 14, color: '#9aa0ad', cursor: 'pointer' }}>{l}</span>
-                  </li>
-                ))}
+                {col.links.map((l, i) => {
+                  const href = col.hrefs[i];
+                  return (
+                    <li key={l}>
+                      {href ? (
+                        <a href={href} style={{ fontSize: 14, color: '#9aa0ad', textDecoration: 'none' }}>
+                          {l}
+                        </a>
+                      ) : (
+                        <span style={{ fontSize: 14, color: '#9aa0ad' }}>{l}</span>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
